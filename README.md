@@ -1,8 +1,10 @@
 # Getting Started with Create React App
 
-To Do List:
-#0 Rerender after global state updated. (1> follow unfollow button not refreshing2> home page not refreshing 3> after posted new post or comment, not refreshing)
-#1 Profile page pictures clicking function.
+A instagram clone React App based on Firebase.  
+To Do List:  
+#0 Rerender after global state updated.  
+ (1> follow unfollow button not refreshing2> home page not refreshing 3> after posted new post or comment, not refreshing)  
+#1 Profile page pictures clicking function.  
 #2 Message function.
 
 ## Available Scripts
