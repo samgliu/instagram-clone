@@ -1,0 +1,18 @@
+body {
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.Home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
+    padding-left: 100px; /* for phone view */
+}
+textarea,
+input:focus-visible {
+    outline: none;
+}

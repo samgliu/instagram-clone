@@ -1,0 +1,108 @@
+.posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: rgb(38, 38, 38);
+    font-weight: 400;
+    font-size: 14px;
+}
+.postcontainer {
+    border-radius: 5px;
+    width: 500px;
+    border: 1 solid #242424;
+    background-color: white;
+}
+.postcontainer a {
+    text-decoration: none;
+    color: #000000;
+}
+.postcontainer a:hover {
+    text-decoration: underline;
+    color: #020202;
+}
+.postscoments {
+    font-weight: 400;
+}
+.postscoments div a {
+    text-decoration: none;
+}
+.postscoments div a:hover {
+    text-decoration: underline;
+    color: #020202;
+}
+.allCommentsLink {
+    color: rgb(142, 142, 142);
+}
+
+.commentsWrapper a {
+    color: #020202;
+}
+
+.authorName {
+    height: 30px;
+    padding: 10px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+.authorName .authorimgcontainer {
+    margin: 5px 8px 0 5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e8585f;
+}
+.authorName img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.postsimg {
+    width: 500px;
+}
+.postscoments {
+    padding: 10px;
+}
+
+.postscoments div {
+    margin: 3px;
+}
+.postscoments input {
+    border: none;
+    width: 430px;
+    margin: 5px;
+    height: 18px;
+}
+
+.postscoments input::placeholder {
+    text-align: left;
+}
+.posttime {
+    font-size: 8px;
+    color: #616060;
+    width: 62px;
+    height: 9px;
+    overflow: hidden;
+}
+.postCmtContainer {
+    border-top: #616060;
+    border: none;
+
+    font-weight: 600;
+}
+.postCmtContainer a {
+    color: #0095f6;
+}
+.postCmtContainer a:hover {
+    text-decoration: none;
+    color: #0095f6;
+}
+.allCommentsLink a {
+    color: rgb(142, 142, 142);
+}

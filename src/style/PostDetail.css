@@ -1,0 +1,108 @@
+.PostDetail {
+    top: 100px;
+    max-width: 1073px;
+    min-width: 848px;
+    min-height: 691px;
+    max-height: 616px;
+    font-size: 0.9em;
+    color: #262626;
+    border: 1px solid gray;
+    background-color: white;
+    position: fixed;
+    box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.PostDetailHidden {
+    display: none;
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.5);
+}
+.detailImgContainer {
+    width: 50%;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 5px;
+}
+.detailImgContainer img {
+    border: none;
+    width: 100%;
+}
+.commentContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+}
+.commentHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 5px;
+    border-bottom: 1px solid rgb(214, 214, 214);
+    height: 4em;
+    padding-top: 10px;
+}
+
+.commentHeader button {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 2.5em;
+}
+.commentsDisplay {
+    height: 580px;
+}
+.detailCmtContainer {
+    height: 30px;
+    overflow: hidden;
+}
+.detailCmtContainer input {
+    border: none;
+    width: 430px;
+    margin: 5px;
+    height: 25px;
+}
+.detailCmtContainer input::placeholder {
+    text-align: left;
+}
+.commentContainer div a {
+    padding: 6px;
+    text-decoration: none;
+    color: black;
+    font-size: 1em;
+}
+.commentContainer div a:hover {
+    text-decoration: underline;
+    color: black;
+}
+.avatarContainer {
+    margin: 0px 100px 0 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.avatarContainer img {
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.singleCmt {
+    height: 30px;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px;
+}
+.singleCmt:hover {
+    background-color: aliceblue;
+    border-radius: 5px;
+}
