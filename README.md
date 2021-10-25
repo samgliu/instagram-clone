@@ -1,6 +1,9 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To Do List:
+#0 Rerender after global state updated. (1> follow unfollow button not refreshing2> home page not refreshing 3> after posted new post or comment, not refreshing)
+#1 Profile page pictures clicking function.
+#2 Message function.
 
 ## Available Scripts
 
