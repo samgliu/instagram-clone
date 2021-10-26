@@ -49,15 +49,8 @@ function Home(props) {
             }
         })();
     }, []);
-    
-    useEffect(async () => {
-        if (isusersignedin) {
-            console.log('isusersignedin changed', isusersignedin);
-            await regetdataFromserver();
-        } else {
-            history.push('/signin');
-        }
-    }, [isusersignedin]);*/
+    */
+
     console.log('inhome posts', posts);
     useEffect(() => {
         console.log('inhome useEffect');

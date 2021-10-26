@@ -2,7 +2,7 @@ import '../style/Signup.css';
 import instagram from '../images/instagram.png';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
 function Signin() {
     const {
@@ -11,6 +11,7 @@ function Signin() {
         history,
         isProfileMenuOpen,
         setIsProfileMenuOpen,
+        regetdataFromserver,
         getDataFromserver,
         setIsHomeClicked,
     } = useContext(GlobalContext);

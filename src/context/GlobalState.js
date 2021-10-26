@@ -123,7 +123,6 @@ export const GlobalProvider = ({ children }) => {
         const newarr = [];
 
         console.log('foreach 1');
-        const promises = [];
         //Object.keys(colarr).map(async (thedoc) => {
         colarr.forEach(async (thedoc) => {
             // 1st foreach for signed user's doc
@@ -166,7 +165,7 @@ export const GlobalProvider = ({ children }) => {
                 comments: commentArr,
             };
             //console.log('getDataFromserver newdoc', newdoc);
-            console.log('newarr1 inforEach', newarr.length);
+            //console.log('newarr1 inforEach', newarr.length);
             newarr.push(newdoc);
         });
         console.log('foreach 2');
@@ -229,23 +228,26 @@ export const GlobalProvider = ({ children }) => {
                 });
             }
         });
-        console.log('promises', promises);
+
         async function sortsetPosts(theArr) {
-            return theArr.sort((a, b) => {
+            let response = theArr.sort((a, b) => {
                 //console.log('sortsetposts ab', a, b);
                 //console.log('compareto', a.timestamp - b.timestamp);
-                return b.timestamp - a.timestamp;
+                return a.timestamp - b.timestamp > 0;
             });
+            console.log('sortsetPosts response', response);
+            return response;
         }
 
         // continue processing here
         // results[0] is the result of the first promise in the promises array
-        sortsetPosts(newarr).then(() => {
-            setPosts(newarr);
-            console.log('after sorted newarr', newarr.length);
+        console.log('before sorted newarr', newarr);
+        sortsetPosts(newarr).then((response) => {
+            console.log('response', response);
+            setPosts(response);
         });
+
         console.log('foreach 3');
-        console.log('newarr posts:', newarr);
     }
 
     async function regetdataFromserver() {
