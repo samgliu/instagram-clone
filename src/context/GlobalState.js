@@ -121,7 +121,7 @@ export const GlobalProvider = ({ children }) => {
         const colarr = await getDocs(cols);
         //console.log('getDataFromserver colarr', colarr);
         const newarr = [];
-        let commentArr = [];
+
         console.log('foreach 1');
         const promises = [];
         //Object.keys(colarr).map(async (thedoc) => {
@@ -138,7 +138,7 @@ export const GlobalProvider = ({ children }) => {
             );
             //console.log('getDataFromserver docSnap empty', docsSnap.empty);
             //console.log('getDataFromserver docSnap', docsSnap);
-
+            let commentArr = [];
             if (!docsSnap.empty) {
                 docsSnap.forEach(async (snap) => {
                     let avatar = (await getDoc(snap.data().owneruser)).data()
