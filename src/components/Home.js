@@ -108,20 +108,7 @@ function Home(props) {
         console.log('posts is undefined');
         return (
             <div>
-                <Header />
-                <div className="Home">
-                    {isPostDetailOpen ? (
-                        <PostDetail
-                            post={detailData}
-                            setIsPostDetailOpen={setIsPostDetailOpen}
-                            isPostDetailOpen={isPostDetailOpen}
-                        />
-                    ) : (
-                        <div></div>
-                    )}
-                    <Newpost />
-                    <Signin />
-                </div>
+                <Signin />
             </div>
         );
     }

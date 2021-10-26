@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
 import { useContext, useEffect, useState } from 'react';
 import Post from './Post';
+import { v4 as uuidv4 } from 'uuid';
 
 function Posts({ handleShowDetail }) {
     let time = '';
@@ -40,7 +41,7 @@ function Posts({ handleShowDetail }) {
                             topic={post.topic}
                             timestamp={post.timestamp.toDate().toString()}
                             pic={post.pic}
-                            key={post.timestamp}
+                            key={uuidv4()}
                             avatar={post.avatar}
                             useruid={post.uuid}
                             postid={post.postid}
