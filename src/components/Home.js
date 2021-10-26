@@ -6,7 +6,7 @@ import { GlobalContext } from '../context/GlobalState';
 import { useContext, useEffect, useState } from 'react';
 import Signin from './Signin';
 import PostDetail from './PostDetail';
-function Home() {
+function Home(props) {
     const {
         getUserinfo,
         curemail,
@@ -28,6 +28,7 @@ function Home() {
     } = useContext(GlobalContext);
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
     const [detailData, setDetailData] = useState();
+    const [locPosts, setLocPosts] = useState();
     /*
     async function onclickgetdata(e) {
         e.preventDefault();
@@ -59,13 +60,27 @@ function Home() {
     }, [isusersignedin]);*/
     console.log('inhome posts', posts);
     useEffect(() => {
-        checkLogin();
-        if (isusersignedin) {
-            regetdataFromserver();
-        } else {
-            history.push('/signin');
+        console.log('inhome useEffect');
+        async function fetchData() {
+            // You can await here
+            let response = await checkLogin();
+            // ...
+            (async () =>
+                await new Promise((resolve) => setTimeout(resolve, 1000)))(); //inline delayer
+            return response;
         }
+        fetchData().then(async (response) => {
+            if (response) {
+                console.log('user signed in , fetchdata', response);
+                regetdataFromserver();
+            } else {
+                console.log('user not signed in ', response);
+                history.push('/signin');
+            }
+        });
+        //return regetdataFromserver();
     }, [isusersignedin]);
+
     function setDetailOpen() {
         setIsPostDetailOpen(!isPostDetailOpen);
         console.log('isPostDetailOpen', isPostDetailOpen);

@@ -20,9 +20,10 @@ function Signin() {
     async function onSubmit(e) {
         e.preventDefault();
         setIsHomeClicked(true);
-        if (await onSubmitSignin(email, password)) {
+        await onSubmitSignin(email, password);
+        /*if (await onSubmitSignin(email, password)) {
             await getUserinfo();
-        }
+        }*/
         history.push('/');
     }
     return (

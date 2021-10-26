@@ -58,18 +58,52 @@ export const GlobalProvider = ({ children }) => {
     const testauth = getAuth();
 
     async function checkLogin() {
-        onAuthStateChanged(testauth, (user) => {
+        try {
+            await new Promise((resolve, reject) =>
+                getAuth().onAuthStateChanged(
+                    (user) => {
+                        if (user) {
+                            // User is signed in.
+                            resolve(user);
+                        } else {
+                            // No user is signed in.
+                            reject('no user logged in');
+                        }
+                    },
+                    // Prevent console error
+                    (error) => reject(error)
+                )
+            );
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+    /*
+    async function checkLogin1() {
+        onAuthStateChanged(getAuth(), async (user) => {
+            setIsusersignedin(true);
+            if (user) return true;
+            else return false;
+        });
+        if (getAuth().currentUser) {
+            return true;
+        } else {
+            return false;
+        }
+        /*
+         onAuthStateChanged(testauth, (user) => {
             if (user) {
                 setIsusersignedin(true);
-                return true;
                 console.log('User is signed in', user);
+                return true;
             } else {
                 setIsusersignedin(false);
                 console.log('// No user is signed in.');
                 return false;
             }
         });
-    }
+    }*/
 
     async function getDataFromserver(usr) {
         //get posts for main user
@@ -87,8 +121,13 @@ export const GlobalProvider = ({ children }) => {
         const colarr = await getDocs(cols);
         //console.log('getDataFromserver colarr', colarr);
         const newarr = [];
+        let commentArr = [];
+        console.log('foreach 1');
+        const promises = [];
+        //Object.keys(colarr).map(async (thedoc) => {
         colarr.forEach(async (thedoc) => {
-            //console.log('getDataFromserver doc', thedoc);
+            // 1st foreach for signed user's doc
+            console.log('getDataFromserver doc', thedoc);
             let theref = thedoc.data();
 
             let docsSnap = await getDocs(
@@ -98,8 +137,8 @@ export const GlobalProvider = ({ children }) => {
                 )
             );
             //console.log('getDataFromserver docSnap empty', docsSnap.empty);
-            console.log('getDataFromserver docSnap', docsSnap);
-            let commentArr = [];
+            //console.log('getDataFromserver docSnap', docsSnap);
+
             if (!docsSnap.empty) {
                 docsSnap.forEach(async (snap) => {
                     let avatar = (await getDoc(snap.data().owneruser)).data()
@@ -111,9 +150,9 @@ export const GlobalProvider = ({ children }) => {
                         avatar: avatar,
                     };
                     //console.log('avatar. ', newObj);
+
                     commentArr.push(newObj);
                 });
-                console.log('commentArr', commentArr);
             }
 
             let ownerDoc = theref.owneruser;
@@ -127,22 +166,14 @@ export const GlobalProvider = ({ children }) => {
                 comments: commentArr,
             };
             //console.log('getDataFromserver newdoc', newdoc);
+            console.log('newarr1 inforEach', newarr.length);
             newarr.push(newdoc);
         });
-        console.log('newarr1', newarr);
+        console.log('foreach 2');
+        console.log('newarr1', newarr.length);
 
-        /* doc(
-                    collection(
-                        db,
-                        'users',
-                        `${theuid}`,
-                        'post',
-                        `${targetPostId}`,
-                        'comments'
-                    )
-                )
-                */
-
+        // 2st foreach for following user's doc
+        //Object.keys(followingusers).map(async (followinguser) => {
         followingusers.forEach(async (followinguser) => {
             //console.log('followinguser', followinguser);
             let followinguserdoc = await getDoc(followinguser);
@@ -182,7 +213,7 @@ export const GlobalProvider = ({ children }) => {
                             //console.log('avatar. ', newObj);
                             commentArr.push(newObj);
                         });
-                        console.log('commentArr', commentArr);
+                        //console.log('commentArr', commentArr);
                     }
 
                     let newdoc = {
@@ -193,39 +224,36 @@ export const GlobalProvider = ({ children }) => {
                     };
                     // console.log('newdoc', newdoc);
                     newarr.push(newdoc);
+
+                    console.log('newarr2 inforEach', newarr.length);
                 });
             }
         });
-        setPosts(newarr);
-        console.log('newarr2', newarr);
-        await sortsetPosts().then(console.log('after sorted newarr', posts));
-    }
-
-    async function sortsetPosts() {
-        console.log('thearr in sortsetposts', posts);
-        if (posts) {
-            let newarr = [];
-
-            for (let i = 0; i < posts.length; i++) {
-                console.log('arr[i]', posts[i]);
-            }
-
-            newarr = posts.sort((a, b) => {
-                console.log('sortsetposts ab', a, b);
-                console.log('compareto', a.timestamp - b.timestamp);
+        console.log('promises', promises);
+        async function sortsetPosts(theArr) {
+            return theArr.sort((a, b) => {
+                //console.log('sortsetposts ab', a, b);
+                //console.log('compareto', a.timestamp - b.timestamp);
                 return b.timestamp - a.timestamp;
             });
-            console.log('sortsetposts newarr', newarr);
-            setPosts(newarr);
         }
+
+        // continue processing here
+        // results[0] is the result of the first promise in the promises array
+        sortsetPosts(newarr).then(() => {
+            setPosts(newarr);
+            console.log('after sorted newarr', newarr.length);
+        });
+        console.log('foreach 3');
+        console.log('newarr posts:', newarr);
     }
 
     async function regetdataFromserver() {
         const auth = getAuth();
-        onAuthStateChanged(testauth, (user) => {
+        onAuthStateChanged(testauth, async (user) => {
             if (user) {
                 setIsusersignedin(true);
-                getDataFromserver(auth.currentUser);
+                await getDataFromserver(auth.currentUser);
                 setUsername(auth.currentUser.displayName);
                 setUseruid(auth.currentUser.uid);
                 setProfilepic(auth.currentUser.photoURL);
@@ -482,34 +510,21 @@ export const GlobalProvider = ({ children }) => {
         const user = auth.currentUser;
         if (user !== null) {
             // The user object has basic properties such as display name, email, etc.
-            const displayName = user.displayName;
-            const email = user.email;
-            const photoURL = user.photoURL;
 
             // The user's ID, unique to the Firebase project. Do NOT use
             // this value to authenticate with your backend server, if
             // you have one. Use User.getToken() instead.
-            const uid = user.uid;
-            console.log('getUserinfo ' + email, displayName, photoURL);
-            setCuremail(email);
+
             //getDataFromserver(usr);
-            regetdataFromserver();
-            setDisplayname(displayName);
-            setProfilepic(photoURL);
-            const docRef = doc(db, 'users', `${email}`);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                console.log('Document data:', docSnap.data());
-                setInfo(docSnap.data());
-            } else {
-                // doc.data() will be undefined in this case
-                console.log('No such document!');
-            }
-            return docSnap.data();
+            await regetdataFromserver();
         }
     }
     async function onSubmitSignin(email, password) {
         const auth = getAuth();
+        if (auth) {
+            auth.signOut();
+        }
+
         let isLogedIn = false;
         await signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -524,7 +539,8 @@ export const GlobalProvider = ({ children }) => {
                     console.log('insubmitsignin dispayname', user.displayName);
                     setDisplayname(user.displayName);
                     setProfilepic(user.photoURL);
-                })().then(getUserinfo(user));
+                    setCuremail(user.email);
+                })();
             })
             .catch((error) => {
                 const errorCode = error.code;

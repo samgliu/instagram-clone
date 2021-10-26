@@ -10,8 +10,9 @@ To Do List:
  )  
 #1 Profile page pictures clicking function.  
 #2 user searching function.  
-#3 followers list  
-#4 Message function.
+#3 Delete function  
+#4 followers list  
+#5 Message function.
 
 ## Available Scripts
 

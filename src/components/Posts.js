@@ -2,7 +2,7 @@ import '../style/Posts.css';
 import './Post';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Post from './Post';
 
 function Posts({ handleShowDetail }) {
@@ -18,10 +18,12 @@ function Posts({ handleShowDetail }) {
         defaultLogin();
     }
 
-    useEffect(() => {}, [posts]);
+    useEffect(() => {
+        console.log('posts changed', posts);
+    }, [posts]);
 
     console.log('in posts', posts);
-    if (posts) {
+    if (posts !== undefined) {
         return (
             <div className="posts">
                 {posts.map((post) => {
