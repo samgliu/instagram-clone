@@ -173,6 +173,8 @@ export const GlobalProvider = ({ children }) => {
             let sorted = thenewarr.sort((a, b) => {
                 //console.log('compareto ab', a, b);
                 // console.log('compareto', a.timestamp - b.timestamp);
+                if (a.timestamp === null) a.timestamp = Date.now();
+                if (b.timestamp === null) b.timestamp = Date.now();
                 return b.timestamp - a.timestamp;
             });
             //console.log('sortsetPosts response', sorted);
@@ -230,6 +232,7 @@ export const GlobalProvider = ({ children }) => {
     async function regetdataFromserver() {
         const auth = getAuth();
         setDisplayname(auth.currentUser.displayName);
+        console.log('called regetdataFromserver');
         onAuthStateChanged(testauth, async (user) => {
             if (user) {
                 setIsusersignedin(true);
@@ -245,7 +248,7 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
-    async function getprofileFromserver(theuid) {
+    async function getprofileFromserver1(theuid) {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -301,8 +304,7 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
-    async function getprofileFromserver2(theuid) {
-        // working on profile to post
+    async function getprofileFromserver(theuid) {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -313,8 +315,10 @@ export const GlobalProvider = ({ children }) => {
                 console.log(locdoc);
                 let locavatardata = await getDoc(locdoc);
                 let avatardata = locavatardata.data();
-                console.log('avatardata' + avatardata);
+                //console.log('avatardata', avatardata);
                 let avatar = avatardata.avatar; // avatar info under user's doc
+                let info = avatardata.info;
+                let nickName = avatardata.name;
                 let username = avatardata.username;
                 console.log('username, owner', username, ownerusername);
                 if (username === ownerusername) {
@@ -330,20 +334,9 @@ export const GlobalProvider = ({ children }) => {
                 let filedata = {
                     arr: newarr,
                 };
-                /*
-                colarr.forEach((doc) => {
-                    let newdoc = { ...doc.data(), avatar: avatar };
-                    newarr.push(newdoc);
-                });
-                 query(
-                    collection(db, col.ref.path, 'comments'),
-                    orderBy('timestamp', 'desc') //, limit(2)
-                )
-                setProfiledata(newarr);
-                */
                 async function processArray(array, newarr, avatar) {
                     array.forEach(async (col) => {
-                        console.log('itemdata', col.data());
+                        //console.log('itemdata', col.data());
 
                         let docsSnap = await getDocs(
                             query(
@@ -386,14 +379,56 @@ export const GlobalProvider = ({ children }) => {
                     });
                 }
                 await processArray(colarr, newarr, avatar);
-                filedata = { ...filedata, avatar: avatar, username: username };
-                setProfiledata(filedata);
-                console.log('after processArray');
+                filedata = {
+                    ...filedata,
+                    avatar: avatar,
+                    username: username,
+                    name: nickName,
+                    info: info,
+                };
+                setTimeout(() => {
+                    console.log('after processArray');
+                    setProfiledata(filedata);
+                }, 500); //delay for server, FIXME
+
                 console.log(filedata.arr.length);
             } else {
                 console.log('// No user when getting profile');
             }
         });
+    }
+
+    async function saveProfileInfoToServer(theName, theInfo) {
+        const auth = getAuth();
+        let user = auth.currentUser;
+        let isNameChanged = theName ? true : false;
+        let isInfoChange = theInfo ? true : false;
+
+        if (user) {
+            console.log(
+                'saveProfileInfoToServer ',
+                isNameChanged,
+                isInfoChange
+            );
+            if (isNameChanged) {
+                await setDoc(
+                    doc(db, 'users', `${user.uid}`),
+                    {
+                        name: theName,
+                    },
+                    { merge: true }
+                );
+            }
+            if (isInfoChange) {
+                await setDoc(
+                    doc(db, 'users', `${user.uid}`),
+                    {
+                        info: theInfo,
+                    },
+                    { merge: true }
+                );
+            }
+        }
     }
 
     async function checkisFollowed(theuid) {
@@ -470,15 +505,14 @@ export const GlobalProvider = ({ children }) => {
                     );
                 });
             });
-            await regetdataFromserver();
+            //await regetdataFromserver();
         }
 
-        console.log('savePostToserver ', inputtext);
-        console.log('curuser', user);
-        console.log('uid', user.uid);
+        //console.log('savePostToserver ', inputtext);
+        //console.log('curuser', user);
+        //console.log('uid', user.uid);
         //console.log('curuser.username', user.username);
-
-        console.log('timestamp', serverTimestamp());
+        //console.log('timestamp', serverTimestamp());
         console.log(theuid);
     }
 
@@ -736,6 +770,7 @@ export const GlobalProvider = ({ children }) => {
                 checkisFollowed,
                 saveCommentToServer,
                 deletePostFromServer,
+                saveProfileInfoToServer,
             }}
         >
             {children}

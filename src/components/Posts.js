@@ -39,7 +39,11 @@ function Posts({ handleShowDetail }) {
                             author={post.author}
                             username={post.username}
                             topic={post.topic}
-                            timestamp={post.timestamp.toDate().toString()}
+                            timestamp={() =>
+                                post.timestamp === null
+                                    ? Date.now()
+                                    : post.timestamp.toDate().toString()
+                            }
                             pic={post.pic}
                             key={uuidv4()}
                             avatar={post.avatar}

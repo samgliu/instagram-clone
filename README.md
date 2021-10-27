@@ -3,14 +3,9 @@
 A instagram clone React App based on Firebase.  
 To Do List:
 
-> after posted new post or comment, not refreshing
-> Profile info editing.
->
-> > Profile page pictures clicking function.  
-> > user searching function.  
-> > Delete function  
-> > followers list  
-> > Message function.
+> user searching function.  
+>  followers list  
+>  Message function.
 
 ## Available Scripts
 

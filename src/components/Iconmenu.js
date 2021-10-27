@@ -12,6 +12,7 @@ function Iconmenu({ profilepic }) {
         setIsNewpostOpen,
         history,
         username,
+        regetdataFromserver,
     } = useContext(GlobalContext);
     function profilebtnonClick(e) {
         e.preventDefault();
@@ -27,6 +28,7 @@ function Iconmenu({ profilepic }) {
             //setIsHomeClicked(true);
         }
         setIsHomeClicked(true);
+        await regetdataFromserver();
         history.push('/');
         setIsProfileMenuOpen(false);
         //console.log('IsHomeClicked', isHomeClicked);

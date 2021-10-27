@@ -16,8 +16,13 @@ function Post({
     post,
     handleShowDetail,
 }) {
-    const { history, saveCommentToServer, displayname, deletePostFromServer } =
-        useContext(GlobalContext);
+    const {
+        history,
+        saveCommentToServer,
+        displayname,
+        deletePostFromServer,
+        regetdataFromserver,
+    } = useContext(GlobalContext);
     const [threePtClicked, setThreePtClicked] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [isPostDeleted, setIsPostDeleted] = useState(false);
@@ -55,6 +60,7 @@ function Post({
     async function handleDeleteOnPost() {
         let path = `/users/${post.uuid}/post/${postid}`;
         await deletePostFromServer(path);
+        await regetdataFromserver();
         setIsPostDeleted(true);
     }
 

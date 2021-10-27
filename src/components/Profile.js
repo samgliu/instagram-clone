@@ -33,6 +33,7 @@ function Profile(props) {
         followTarget,
         unfollowTarget,
         checkisFollowed,
+        saveProfileInfoToServer,
     } = useContext(GlobalContext);
 
     const [profileUsersignedin, setProfileUsersignedin] = useState(false);
@@ -40,18 +41,20 @@ function Profile(props) {
     const [locIsFollowed, setLocIsFollowed] = useState(true);
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
     const [detailData, setDetailData] = useState();
-
-    console.log('inprofile', props);
+    const [editingInfo, setEditingInfo] = useState(false);
+    let nickName = '';
+    let information = '';
+    //console.log('inprofile', props);
     useEffect(() => {
         async function fetchData() {
             if (isusersignedin) {
                 console.log('isusersignedin changed', isusersignedin);
-                await getprofileFromserver(props.uuid).then(() =>
+                await getprofileFromserver(props.uuid).then(() => {
                     console.log(
                         'profiledata in getprofileFromserver',
                         profiledata
-                    )
-                );
+                    );
+                });
                 await checkisFollowed(props.uuid);
                 if (isfollowed) {
                     setLocIsFollowed(true);
@@ -65,6 +68,7 @@ function Profile(props) {
             }
         }
         fetchData();
+
         //console.log('isfollowed', isfollowed);
     }, [props, isfollowed, isusersignedin]);
 
@@ -114,7 +118,12 @@ function Profile(props) {
     function followedbtnrender() {
         return (
             <div>
-                <button onClick={(e) => unfollowOnClicked(e)}>Unfollow</button>
+                <button
+                    className="followBtn"
+                    onClick={(e) => unfollowOnClicked(e)}
+                >
+                    Unfollow
+                </button>
             </div>
         );
     }
@@ -128,41 +137,116 @@ function Profile(props) {
     function notfollowedbtnrender() {
         return (
             <div>
-                <button onClick={(e) => followOnClicked(e)}>Follow</button>
+                <button
+                    className="followBtn"
+                    onClick={(e) => followOnClicked(e)}
+                >
+                    Follow
+                </button>
             </div>
         );
     }
     console.log('profiledata', profiledata);
+
+    function editOnClick(e) {
+        e.preventDefault();
+        setEditingInfo(!editingInfo);
+    }
+    function saveEditOnClick(e) {
+        e.preventDefault();
+        setEditingInfo(false);
+        saveProfileInfoToServer(nickName, information);
+        let isNameChanged = nickName ? true : false;
+        let isInfoChange = information ? true : false;
+        if (isNameChanged) profiledata.name = nickName;
+        if (isInfoChange) profiledata.info = information;
+    }
+
     function isOwnerRender() {
         console.log('isOwnerRender');
         return (
             <div className="topprofile">
-                <div>
+                <div className="profileImgWrapper">
                     <img
                         id="profileavatar"
                         src={ischangingavatar ? previewimg : profiledata.avatar}
+                        className="topprofileOwner"
                         alt=""
                         title="Change Profile Photo"
                         onClick={(e) => selectbtnonClick(e)}
                     />
-                    <input
-                        type="file"
-                        id="getavatarFile"
-                        onChange={(e) => onSelectChange(e)}
-                        style={{ display: 'none' }}
-                    />
-                    {ischangingavatar ? (
-                        <div className="saveButton">
-                            <button onClick={(e) => onsavebtnOnclicked(e)}>
+                    <div>
+                        <input
+                            type="file"
+                            id="getavatarFile"
+                            onChange={(e) => onSelectChange(e)}
+                            style={{ display: 'none' }}
+                        />
+                        {ischangingavatar ? (
+                            <div className="saveButton">
+                                <button onClick={(e) => onsavebtnOnclicked(e)}>
+                                    Save
+                                </button>
+                            </div>
+                        ) : (
+                            <div></div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="profileInfoWrapper">
+                    <div>
+                        <span className="usernameFont">
+                            {profiledata.username}
+                        </span>
+                        <button
+                            className="editBtn"
+                            onClick={(e) => editOnClick(e)}
+                        >
+                            Edit Profile
+                        </button>
+                    </div>
+                    {!editingInfo ? (
+                        <div>
+                            <div className="nicknameFont">
+                                {profiledata.name}
+                            </div>
+                            <div>{profiledata.info}</div>
+                        </div>
+                    ) : (
+                        <div className="editingWrapper">
+                            <div>
+                                <input
+                                    className="nameInputBox"
+                                    type="text"
+                                    defaultValue={profiledata.name}
+                                    placeholder="Name"
+                                    onChange={(event) => {
+                                        nickName = event.target.value;
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <textarea
+                                    className="infoTextBox"
+                                    placeholder="Information"
+                                    type="text"
+                                    rows="3"
+                                    defaultValue={profiledata.info}
+                                    onChange={(event) => {
+                                        information = event.target.value;
+                                    }}
+                                />
+                            </div>
+
+                            <button
+                                className="saveBtn"
+                                onClick={(e) => saveEditOnClick(e)}
+                            >
                                 Save
                             </button>
                         </div>
-                    ) : (
-                        <div></div>
                     )}
-                </div>
-                <div>
-                    <h2>{profiledata.username}</h2>
                 </div>
             </div>
         );
@@ -172,20 +256,31 @@ function Profile(props) {
         console.log('notOwnerRender');
         return (
             <div className="topprofile">
-                <div>
+                <div className="profileImgWrapper">
                     <img
                         id="profileavatar"
                         src={ischangingavatar ? previewimg : profiledata.avatar}
                         alt=""
                     />
                 </div>
-                <div>
-                    <h2>{profiledata.username}</h2>
-                </div>
-                <div>
-                    {locIsFollowed
-                        ? followedbtnrender()
-                        : notfollowedbtnrender()}
+                <div className="profileInfoWrapper">
+                    <div className="nameBtnWrapper">
+                        <span className="usernameFont">
+                            {profiledata.username}
+                        </span>
+                        {locIsFollowed
+                            ? followedbtnrender()
+                            : notfollowedbtnrender()}
+                    </div>
+
+                    <div>
+                        <div>
+                            <div className="nicknameFont">
+                                {profiledata.name}
+                            </div>
+                            <div>{profiledata.info}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -224,11 +319,11 @@ function Profile(props) {
                                 <div className="gridimg" key={uuidv4()}>
                                     <div
                                         className="imgClickable"
-                                        /*onClick={(e) => {
+                                        onClick={(e) => {
                                             if (profile) {
                                                 handleShowDetail(e, profile);
                                             }
-                                        }} */
+                                        }}
                                     >
                                         <img src={profile.pic} alt="" />
                                     </div>

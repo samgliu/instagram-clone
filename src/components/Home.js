@@ -61,8 +61,7 @@ function Home(props) {
             return response;
         }
         fetchData().then(async (response) => {
-            (async () =>
-                await new Promise((resolve) => setTimeout(resolve, 1000)))(); //inline delayer
+            // (async () =>await new Promise((resolve) => setTimeout(resolve, 1000)))(); //inline delayer
             if (response) {
                 console.log('user signed in , fetchdata', response);
                 regetdataFromserver();

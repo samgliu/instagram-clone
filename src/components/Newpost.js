@@ -14,6 +14,7 @@ const Newpost = () => {
         savePostToserver,
         history,
         deletePostFromServer,
+        regetdataFromserver,
     } = useContext(GlobalContext);
 
     const [previewimg, setPreviewimg] = useState(noimg);
@@ -36,6 +37,9 @@ const Newpost = () => {
         console.log(loctext, imgblob);
         await savePostToserver(loctext, imgblob);
         setIsNewpostOpen(false);
+        console.log('regetdataFromserver 1');
+        setTimeout(async () => await regetdataFromserver(), 3000); // delay 3s for server to response FIXME
+        console.log('regetdataFromserver 5');
     };
     function selectbtnonClick(e) {
         e.preventDefault();
