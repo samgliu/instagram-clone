@@ -18,6 +18,7 @@ import {
     limit,
     orderBy,
     onSnapshot,
+    deleteDoc,
 } from 'firebase/firestore';
 import { useHistory } from 'react-router-dom';
 import {
@@ -164,25 +165,24 @@ export const GlobalProvider = ({ children }) => {
         //console.log('newarr1', newarr1);
         await mapFollowing(followingusers);
         // newarr = [...newarr1, ...newarr2];
-        console.log('after mapFollowing', newarr);
+        //console.log('after mapFollowing', newarr);
         async function sortsetPosts(thenewarr) {
             console.log(thenewarr);
             console.log('in sortsetPosts', thenewarr.length); // it's 0, so never sort
 
             let sorted = thenewarr.sort((a, b) => {
-                console.log('compareto ab', a, b);
-                console.log('compareto', a.timestamp - b.timestamp);
+                //console.log('compareto ab', a, b);
+                // console.log('compareto', a.timestamp - b.timestamp);
                 return b.timestamp - a.timestamp;
             });
-            console.log('sortsetPosts response', sorted);
+            //console.log('sortsetPosts response', sorted);
             return sorted;
         }
 
         let tempArr = [];
-        console.log('tempCollection', tempCollection);
+        //console.log('tempCollection', tempCollection);
         for (let col of tempCollection) {
             let theref = col.data();
-
             let docsSnap = await getDocs(
                 query(
                     collection(db, col.ref.path, 'comments'),
@@ -229,6 +229,7 @@ export const GlobalProvider = ({ children }) => {
 
     async function regetdataFromserver() {
         const auth = getAuth();
+        setDisplayname(auth.currentUser.displayName);
         onAuthStateChanged(testauth, async (user) => {
             if (user) {
                 setIsusersignedin(true);
@@ -265,7 +266,7 @@ export const GlobalProvider = ({ children }) => {
                     setIsProfileowner(false);
                 }
                 let loccol = collection(locdoc, 'post');
-                const cols = query(loccol);
+                const cols = query(loccol, orderBy('timestamp', 'desc'));
                 const colarr = await getDocs(cols);
 
                 const newarr = [];
@@ -294,6 +295,101 @@ export const GlobalProvider = ({ children }) => {
                 setProfiledata(filedata);
                 console.log('after processArray');
                 console.log(filedata);
+            } else {
+                console.log('// No user when getting profile');
+            }
+        });
+    }
+
+    async function getprofileFromserver2(theuid) {
+        // working on profile to post
+        const auth = getAuth();
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log('getprofileFromserver user', user, theuid);
+                let ownerusername = user.displayName;
+
+                let locdoc = doc(db, 'users', `${theuid}`); //, 'post'
+                console.log(locdoc);
+                let locavatardata = await getDoc(locdoc);
+                let avatardata = locavatardata.data();
+                console.log('avatardata' + avatardata);
+                let avatar = avatardata.avatar; // avatar info under user's doc
+                let username = avatardata.username;
+                console.log('username, owner', username, ownerusername);
+                if (username === ownerusername) {
+                    setIsProfileowner(true);
+                } else {
+                    setIsProfileowner(false);
+                }
+                let loccol = collection(locdoc, 'post');
+                const cols = query(loccol, orderBy('timestamp', 'desc'));
+                const colarr = await getDocs(cols);
+
+                const newarr = [];
+                let filedata = {
+                    arr: newarr,
+                };
+                /*
+                colarr.forEach((doc) => {
+                    let newdoc = { ...doc.data(), avatar: avatar };
+                    newarr.push(newdoc);
+                });
+                 query(
+                    collection(db, col.ref.path, 'comments'),
+                    orderBy('timestamp', 'desc') //, limit(2)
+                )
+                setProfiledata(newarr);
+                */
+                async function processArray(array, newarr, avatar) {
+                    array.forEach(async (col) => {
+                        console.log('itemdata', col.data());
+
+                        let docsSnap = await getDocs(
+                            query(
+                                collection(db, col.ref.path, 'comments'),
+                                orderBy('timestamp', 'desc') //, limit(2)
+                            )
+                        );
+
+                        let commentArr = [];
+                        let tempCmtCollection = [];
+                        if (!docsSnap.empty) {
+                            docsSnap.forEach(async (snap) => {
+                                tempCmtCollection.push(snap);
+                            });
+                        }
+
+                        for (let snap of tempCmtCollection) {
+                            let avatar = (
+                                await getDoc(snap.data().owneruser)
+                            ).data().avatar;
+                            //console.log('avatar. ', avatar);
+                            //console.log('snap data', snap.data());
+                            let newObj = {
+                                ...snap.data(),
+                                avatar: avatar,
+                            };
+                            //console.log('avatar. ', newObj);
+
+                            commentArr.push(newObj);
+                        }
+
+                        let newdoc = {
+                            ...col.data(),
+                            avatar: avatar,
+                            comments: commentArr,
+                        };
+
+                        newarr.push(newdoc);
+                        return newarr;
+                    });
+                }
+                await processArray(colarr, newarr, avatar);
+                filedata = { ...filedata, avatar: avatar, username: username };
+                setProfiledata(filedata);
+                console.log('after processArray');
+                console.log(filedata.arr.length);
             } else {
                 console.log('// No user when getting profile');
             }
@@ -384,6 +480,13 @@ export const GlobalProvider = ({ children }) => {
 
         console.log('timestamp', serverTimestamp());
         console.log(theuid);
+    }
+
+    async function deletePostFromServer(path) {
+        console.log(path);
+        const locDoc = doc(db, path);
+        await deleteDoc(locDoc);
+        console.log('deletePostFromServer locDoc', locDoc);
     }
 
     async function saveCommentToServer(inputText, targetUid, targetPostId) {
@@ -632,6 +735,7 @@ export const GlobalProvider = ({ children }) => {
                 unfollowTarget,
                 checkisFollowed,
                 saveCommentToServer,
+                deletePostFromServer,
             }}
         >
             {children}

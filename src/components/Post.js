@@ -1,8 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 import Postdetail from './PostDetail';
 import { v4 as uuidv4 } from 'uuid';
+import DropdownButton from './DropdownButton';
 function Post({
     topic,
     timestamp,
@@ -15,8 +16,11 @@ function Post({
     post,
     handleShowDetail,
 }) {
-    const { history, saveCommentToServer } = useContext(GlobalContext);
-
+    const { history, saveCommentToServer, displayname, deletePostFromServer } =
+        useContext(GlobalContext);
+    const [threePtClicked, setThreePtClicked] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
+    const [isPostDeleted, setIsPostDeleted] = useState(false);
     //let { uname, uuid } = useParams();
     const handleProceed = (e, link) => {
         e.preventDefault();
@@ -28,6 +32,11 @@ function Post({
         // username &&
         //    history.push(generatePath('/profile/:username', { username }));
     };
+    useEffect(() => {
+        if (displayname === post.username) {
+            setIsOwner(true);
+        }
+    }, []);
     let comment = '';
     function postOnClick(e) {
         e.preventDefault();
@@ -40,23 +49,49 @@ function Post({
         handleShowDetail(data);
     }
     //console.log('in Post comments', comments);
+    function handleThreePtClicked() {
+        console.log();
+    }
+    async function handleDeleteOnPost() {
+        let path = `/users/${post.uuid}/post/${postid}`;
+        await deletePostFromServer(path);
+        setIsPostDeleted(true);
+    }
+
     return (
         <div>
-            <div className="postcontainer">
-                <div className="authorName">
-                    <div className="authorimgcontainer">
-                        <img src={avatar} alt="" />
+            <div
+                className={
+                    !isPostDeleted ? 'postcontainer' : 'postcontainer hidden'
+                }
+            >
+                <div className="postHeader">
+                    <div className="authorName">
+                        <div className="authorimgcontainer">
+                            <img src={avatar} alt="" />
+                        </div>
+                        <Link
+                            to={{
+                                pathname: `/profile/${username}/${useruid}`,
+                            }}
+                            onClick={(e) =>
+                                handleProceed(
+                                    e,
+                                    `/profile/${username}/${useruid}`
+                                )
+                            }
+                        >
+                            <strong>{username}</strong>
+                        </Link>
                     </div>
-                    <Link
-                        to={{
-                            pathname: `/profile/${username}/${useruid}`,
+                    <DropdownButton
+                        threePtClicked={threePtClicked}
+                        handleDeleteOnPost={handleDeleteOnPost}
+                        isOwner={isOwner}
+                        onClick={() => {
+                            handleThreePtClicked();
                         }}
-                        onClick={(e) =>
-                            handleProceed(e, `/profile/${username}/${useruid}`)
-                        }
-                    >
-                        <strong>{username}</strong>
-                    </Link>
+                    />
                 </div>
                 <div className="postimgcontainer">
                     <Link to={'#'} onClick={(e) => viewPost(e, post)}>

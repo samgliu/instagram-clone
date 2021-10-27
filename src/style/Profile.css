@@ -61,3 +61,6 @@
     margin-left: 33px;
     cursor: pointer;
 }
+.imgClickable {
+    cursor: pointer;
+}

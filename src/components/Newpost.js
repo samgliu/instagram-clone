@@ -13,9 +13,11 @@ const Newpost = () => {
         imgblob,
         savePostToserver,
         history,
+        deletePostFromServer,
     } = useContext(GlobalContext);
 
     const [previewimg, setPreviewimg] = useState(noimg);
+
     console.log('in Newpost displayname', displayname);
     let loctext = '';
     const onSelectChange = (e) => {
@@ -39,6 +41,7 @@ const Newpost = () => {
         e.preventDefault();
         document.getElementById('getFile').click();
     }
+
     return (
         <div className={isNewpostOpen ? 'newpost' : 'newpost newpostHidden'}>
             <div className="newpostHeader">

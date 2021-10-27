@@ -2,11 +2,13 @@ import '../style/Signup.css';
 import instagram from '../images/instagram.png';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import '../style/PostDetail.css';
 import { v4 as uuidv4 } from 'uuid';
+import DropdownButton from './DropdownButton';
 
 function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
+    const [isOwner, setIsOwner] = useState(false);
     const {
         onSubmitSignin,
         getUserinfo,
@@ -17,7 +19,21 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
         setIsHomeClicked,
         regetdataFromserver,
         saveCommentToServer,
+        displayname,
+        deletePostFromServer,
     } = useContext(GlobalContext);
+
+    useEffect(() => {
+        console.log(
+            'displayname === post.username0',
+            displayname,
+            post.username
+        );
+        if (displayname === post.username) {
+            setIsOwner(true);
+        }
+    }, []);
+
     function onCloseClick(e) {
         e.preventDefault();
         setIsPostDetailOpen(!isPostDetailOpen);
@@ -38,6 +54,15 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
     };
     let postUid = post.owneruser.path.substring(6);
     console.log('in post detail ', post);
+    function handleThreePtClicked() {
+        console.log();
+    }
+    async function handleDeleteOnPost() {
+        let path = `/users/${post.uuid}/post/${post.postid}`;
+        await deletePostFromServer(path);
+        //history.push('/');
+        setIsPostDetailOpen(false);
+    }
     return (
         <div className="PostDetail">
             <div className="detailImgContainer">
@@ -64,14 +89,26 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
                             </Link>
                         </div>
                     </div>
-                    <div>
-                        <button
-                            type="button"
-                            onClick={(e) => onCloseClick(e)}
-                            className="closebtn"
-                        >
-                            ✖
-                        </button>
+
+                    <div className="buttonContainer">
+                        <div className="detailButton">
+                            <DropdownButton
+                                isOwner={isOwner}
+                                onClick={() => {
+                                    handleThreePtClicked();
+                                }}
+                                handleDeleteOnPost={handleDeleteOnPost}
+                            />
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                onClick={(e) => onCloseClick(e)}
+                                className="closebtn"
+                            >
+                                ✖
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div className="commentsDisplay">
@@ -95,7 +132,7 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
                         <div>{post.topic}</div>
                     </div>
                     {post.comments.map((cmt) => {
-                        console.log('commentsDisplay', cmt);
+                        // console.log('commentsDisplay', cmt);
                         let cmtUid = cmt.owneruser.path.substring(6);
                         return (
                             <div className="singleCmt" key={uuidv4()}>
