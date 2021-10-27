@@ -14,12 +14,12 @@ function Header() {
         setIsHomeClicked,
         setIsProfileMenuOpen,
     } = useContext(GlobalContext);
-    console.log('indeader profilepic', profilepic);
+    // console.log('indeader profilepic', profilepic);
     function homebtnonClick(e) {
         e.preventDefault();
         setIsHomeClicked(true);
         setIsProfileMenuOpen(false);
-        console.log('homebtnonClick');
+        //  console.log('homebtnonClick');
         history.push('/');
     }
     return (

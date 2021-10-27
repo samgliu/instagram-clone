@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import Post from './Post';
 import { v4 as uuidv4 } from 'uuid';
 
-function Posts({ handleShowDetail }) {
+const Posts = ({ handleShowDetail }) => {
     let time = '';
     const {
         getDataFromserver,
@@ -18,17 +18,17 @@ function Posts({ handleShowDetail }) {
     async function defLogin() {
         defaultLogin();
     }
-
+    /*
     useEffect(() => {
         console.log('posts changed', posts);
-    }, [posts]);
+    }, [posts]);*/
 
-    console.log('in posts', posts);
+    //  console.log('in posts', posts);
     if (posts !== undefined) {
         return (
             <div className="posts">
                 {posts.map((post) => {
-                    //console.log('post under map', post);
+                    //  console.log('post under map', post);
                     let locComments = post.comments;
                     if (locComments !== [] && locComments.length > 2) {
                         locComments = [locComments[0], locComments[1]];
@@ -50,19 +50,15 @@ function Posts({ handleShowDetail }) {
                             useruid={post.uuid}
                             postid={post.postid}
                             comments={locComments}
-                            handleShowDetail={(d) => handleShowDetail(d)}
+                            handleShowDetail={handleShowDetail}
                         />
                     );
                 })}
             </div>
         );
     } else {
-        return (
-            <div className="posts">
-                <div>Error. No Posts.</div>
-            </div>
-        );
+        return <div className="posts"></div>;
     }
-}
+};
 
 export default Posts;

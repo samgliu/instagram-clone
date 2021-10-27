@@ -48,12 +48,12 @@ function Profile(props) {
     useEffect(() => {
         async function fetchData() {
             if (isusersignedin) {
-                console.log('isusersignedin changed', isusersignedin);
+                // console.log('isusersignedin changed', isusersignedin);
                 await getprofileFromserver(props.uuid).then(() => {
-                    console.log(
+                    /* console.log(
                         'profiledata in getprofileFromserver',
                         profiledata
-                    );
+                    );*/
                 });
                 await checkisFollowed(props.uuid);
                 if (isfollowed) {
@@ -112,8 +112,8 @@ function Profile(props) {
         //e.currentTarget.disabled = true;
         unfollowTarget(props.uuid);
         setLocIsFollowed(false);
-        console.log('unfollowOnClicked targetuid: ', props.uuid);
-        console.log('unfollowOnClicked');
+        // console.log('unfollowOnClicked targetuid: ', props.uuid);
+        // console.log('unfollowOnClicked');
     }
     function followedbtnrender() {
         return (
@@ -132,7 +132,7 @@ function Profile(props) {
         //e.currentTarget.disabled = true;
         followTarget(props.uuid);
         setLocIsFollowed(true);
-        console.log('followOnClicked targetuid: ', props.uuid);
+        //  console.log('followOnClicked targetuid: ', props.uuid);
     }
     function notfollowedbtnrender() {
         return (
@@ -146,7 +146,7 @@ function Profile(props) {
             </div>
         );
     }
-    console.log('profiledata', profiledata);
+    // console.log('profiledata', profiledata);
 
     function editOnClick(e) {
         e.preventDefault();
@@ -163,7 +163,7 @@ function Profile(props) {
     }
 
     function isOwnerRender() {
-        console.log('isOwnerRender');
+        // console.log('isOwnerRender');
         return (
             <div className="topprofile">
                 <div className="profileImgWrapper">
@@ -253,7 +253,7 @@ function Profile(props) {
     }
 
     function notOwnerRender() {
-        console.log('notOwnerRender');
+        //  console.log('notOwnerRender');
         return (
             <div className="topprofile">
                 <div className="profileImgWrapper">
@@ -289,9 +289,9 @@ function Profile(props) {
     function handleShowDetail(e, data) {
         e.preventDefault();
         setIsPostDetailOpen(!isPostDetailOpen);
-        console.log('data', data);
+        //   console.log('data', data);
         setDetailData(data);
-        console.log('handleShowDetail', data);
+        //  console.log('handleShowDetail', data);
     }
 
     if (profiledata) {

@@ -19,11 +19,11 @@ const Newpost = () => {
 
     const [previewimg, setPreviewimg] = useState(noimg);
 
-    console.log('in Newpost displayname', displayname);
+    //  console.log('in Newpost displayname', displayname);
     let loctext = '';
     const onSelectChange = (e) => {
         e.preventDefault();
-        console.log(window.URL.createObjectURL(e.target.files[0]));
+        //  console.log(window.URL.createObjectURL(e.target.files[0]));
         setPreviewimg(window.URL.createObjectURL(e.target.files[0]));
         setImgblob(e.target.files[0]);
     };
@@ -34,12 +34,12 @@ const Newpost = () => {
 
     const savePost = async (e) => {
         e.preventDefault();
-        console.log(loctext, imgblob);
+        //  console.log(loctext, imgblob);
         await savePostToserver(loctext, imgblob);
         setIsNewpostOpen(false);
-        console.log('regetdataFromserver 1');
+        //  console.log('regetdataFromserver 1');
         setTimeout(async () => await regetdataFromserver(), 3000); // delay 3s for server to response FIXME
-        console.log('regetdataFromserver 5');
+        //   console.log('regetdataFromserver 5');
     };
     function selectbtnonClick(e) {
         e.preventDefault();

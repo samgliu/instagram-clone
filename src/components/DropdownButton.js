@@ -10,7 +10,7 @@ const DropdownButton = ({
     const handleClicked = (e) => {
         e.preventDefault();
         setIsMenuOpen(!isMenuOpen);
-        console.log(e);
+        // console.log(e);
         console.log('isOwner?', isOwner);
     };
     const deleteOnClick = (e) => {

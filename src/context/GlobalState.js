@@ -110,7 +110,7 @@ export const GlobalProvider = ({ children }) => {
     async function getDataFromserver(usr) {
         //get posts for main user
         //console.log('curuser', curuser);
-        console.log('usr', usr);
+        //console.log('usr', usr);
         let theuid = usr.uid;
         let locdoc = doc(db, 'users', `${theuid}`); //, 'post'
         let userdoc = await getDoc(locdoc);
@@ -154,7 +154,7 @@ export const GlobalProvider = ({ children }) => {
                 let postsArr = await mapPosts(focolarr);
                 resArr.push(postsArr);
             });
-            console.log('resArr', resArr);
+            //console.log('resArr', resArr);
             return resArr;
         };
 
@@ -167,8 +167,8 @@ export const GlobalProvider = ({ children }) => {
         // newarr = [...newarr1, ...newarr2];
         //console.log('after mapFollowing', newarr);
         async function sortsetPosts(thenewarr) {
-            console.log(thenewarr);
-            console.log('in sortsetPosts', thenewarr.length); // it's 0, so never sort
+            //  console.log(thenewarr);
+            //  console.log('in sortsetPosts', thenewarr.length); // it's 0, so never sort
 
             let sorted = thenewarr.sort((a, b) => {
                 //console.log('compareto ab', a, b);
@@ -221,7 +221,7 @@ export const GlobalProvider = ({ children }) => {
 
             tempArr.push(newdoc);
         }
-        console.log('collection tempArr', tempArr);
+        //console.log('collection tempArr', tempArr);
         let sortedTempArr = await sortsetPosts(tempArr);
 
         setPosts(sortedTempArr);
@@ -232,7 +232,7 @@ export const GlobalProvider = ({ children }) => {
     async function regetdataFromserver() {
         const auth = getAuth();
         setDisplayname(auth.currentUser.displayName);
-        console.log('called regetdataFromserver');
+        //console.log('called regetdataFromserver');
         onAuthStateChanged(testauth, async (user) => {
             if (user) {
                 setIsusersignedin(true);
@@ -252,17 +252,17 @@ export const GlobalProvider = ({ children }) => {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                console.log('getprofileFromserver user', user, theuid);
+                // console.log('getprofileFromserver user', user, theuid);
                 let ownerusername = user.displayName;
 
                 let locdoc = doc(db, 'users', `${theuid}`); //, 'post'
-                console.log(locdoc);
+                //console.log(locdoc);
                 let locavatardata = await getDoc(locdoc);
                 let avatardata = locavatardata.data();
-                console.log('avatardata' + avatardata);
+                //console.log('avatardata' + avatardata);
                 let avatar = avatardata.avatar; // avatar info under user's doc
                 let username = avatardata.username;
-                console.log('username, owner', username, ownerusername);
+                // console.log('username, owner', username, ownerusername);
                 if (username === ownerusername) {
                     setIsProfileowner(true);
                 } else {
@@ -292,12 +292,12 @@ export const GlobalProvider = ({ children }) => {
                 }
                 processArray(colarr, newarr, avatar).then((newarr) => {
                     //setProfiledata(newarr);
-                    console.log('after for each', newarr);
+                    // console.log('after for each', newarr);
                 });
                 filedata = { ...filedata, avatar: avatar, username: username };
                 setProfiledata(filedata);
-                console.log('after processArray');
-                console.log(filedata);
+                //console.log('after processArray');
+                // console.log(filedata);
             } else {
                 console.log('// No user when getting profile');
             }
@@ -308,11 +308,11 @@ export const GlobalProvider = ({ children }) => {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                console.log('getprofileFromserver user', user, theuid);
+                // console.log('getprofileFromserver user', user, theuid);
                 let ownerusername = user.displayName;
 
                 let locdoc = doc(db, 'users', `${theuid}`); //, 'post'
-                console.log(locdoc);
+                // console.log(locdoc);
                 let locavatardata = await getDoc(locdoc);
                 let avatardata = locavatardata.data();
                 //console.log('avatardata', avatardata);
@@ -320,7 +320,7 @@ export const GlobalProvider = ({ children }) => {
                 let info = avatardata.info;
                 let nickName = avatardata.name;
                 let username = avatardata.username;
-                console.log('username, owner', username, ownerusername);
+                //  console.log('username, owner', username, ownerusername);
                 if (username === ownerusername) {
                     setIsProfileowner(true);
                 } else {
@@ -387,11 +387,11 @@ export const GlobalProvider = ({ children }) => {
                     info: info,
                 };
                 setTimeout(() => {
-                    console.log('after processArray');
+                    // console.log('after processArray');
                     setProfiledata(filedata);
                 }, 500); //delay for server, FIXME
 
-                console.log(filedata.arr.length);
+                //  console.log(filedata.arr.length);
             } else {
                 console.log('// No user when getting profile');
             }
@@ -405,11 +405,11 @@ export const GlobalProvider = ({ children }) => {
         let isInfoChange = theInfo ? true : false;
 
         if (user) {
-            console.log(
+            /*console.log(
                 'saveProfileInfoToServer ',
                 isNameChanged,
                 isInfoChange
-            );
+            );*/
             if (isNameChanged) {
                 await setDoc(
                     doc(db, 'users', `${user.uid}`),
@@ -486,7 +486,7 @@ export const GlobalProvider = ({ children }) => {
         if (user) {
             const imgstorageRef = ref(storage, `uploadedimages/${uuidv4()}`);
             await uploadBytes(imgstorageRef, imgblob).then((snapshot) => {
-                console.log('Uploaded a blob or file!', snapshot);
+                // console.log('Uploaded a blob or file!', snapshot);
                 getDownloadURL(snapshot.ref).then(function (downloadURL) {
                     console.log('File available at', downloadURL);
                     imgurl = downloadURL;
@@ -513,14 +513,14 @@ export const GlobalProvider = ({ children }) => {
         //console.log('uid', user.uid);
         //console.log('curuser.username', user.username);
         //console.log('timestamp', serverTimestamp());
-        console.log(theuid);
+        // console.log(theuid);
     }
 
     async function deletePostFromServer(path) {
-        console.log(path);
+        // console.log(path);
         const locDoc = doc(db, path);
         await deleteDoc(locDoc);
-        console.log('deletePostFromServer locDoc', locDoc);
+        // console.log('deletePostFromServer locDoc', locDoc);
     }
 
     async function saveCommentToServer(inputText, targetUid, targetPostId) {
@@ -528,7 +528,7 @@ export const GlobalProvider = ({ children }) => {
         let user = auth.currentUser;
         let theuid = targetUid;
         let input = inputText;
-        console.log('saveCommentToServer ', inputText, targetPostId);
+        //  console.log('saveCommentToServer ', inputText, targetPostId);
         if (user) {
             setDoc(
                 doc(
@@ -652,7 +652,7 @@ export const GlobalProvider = ({ children }) => {
                     setCuruser(user);
                     //console.log('onSubmitSignin ', curuser);
                     setCuremail(email);
-                    console.log('insubmitsignin user', user);
+                    //   console.log('insubmitsignin user', user);
                     setDisplayname(user.displayName);
                     setProfilepic(user.photoURL);
                     setCuremail(user.email);
@@ -684,20 +684,20 @@ export const GlobalProvider = ({ children }) => {
         const user = auth.currentUser;
         if (user !== null) {
             const imgstorageRef = ref(storage, `avatars/${uuidv4()}`);
-            console.log('imgstorageRef', imgblob);
+            //   console.log('imgstorageRef', imgblob);
             await uploadBytes(imgstorageRef, imgblob).then((snapshot) => {
-                console.log('Uploaded a blob or file!', snapshot);
+                //    console.log('Uploaded a blob or file!', snapshot);
                 getDownloadURL(snapshot.ref).then(function (downloadURL) {
-                    console.log('File available at', downloadURL);
+                    //     console.log('File available at', downloadURL);
                     updateProfile(auth.currentUser, {
                         photoURL: downloadURL,
                     })
                         .then(() => {
                             // Profile updated!
-                            console.log(
+                            /*   console.log(
                                 'now photo: ',
                                 auth.currentUser.photoURL
-                            );
+                            );*/
                             setDoc(
                                 doc(db, 'users', `${auth.currentUser.uid}`),
                                 {

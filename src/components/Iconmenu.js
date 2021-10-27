@@ -2,7 +2,6 @@ import { GlobalContext } from '../context/GlobalState';
 import React, { useContext, useEffect } from 'react';
 import ProfileMenu from '../components/ProfileMenu';
 function Iconmenu({ profilepic }) {
-    console.log('iconmenu', profilepic);
     const {
         isProfileMenuOpen,
         setIsProfileMenuOpen,
@@ -22,9 +21,9 @@ function Iconmenu({ profilepic }) {
     async function homebtnonClick(e) {
         e.preventDefault();
         //setIsHomeClicked(!isHomeClicked);
-        console.log('homebtnonClick');
+        //  console.log('homebtnonClick');
         async function setHome() {
-            console.log('setIsHomeClicked();');
+            //  console.log('setIsHomeClicked();');
             //setIsHomeClicked(true);
         }
         setIsHomeClicked(true);
@@ -39,7 +38,7 @@ function Iconmenu({ profilepic }) {
     }
     function inboxOnClick(e) {
         e.preventDefault();
-        console.log('inboxOnClick');
+        // console.log('inboxOnClick');
     }
     return (
         <div className="iconmenu">

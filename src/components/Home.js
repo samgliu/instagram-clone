@@ -51,9 +51,9 @@ function Home(props) {
     }, []);
     */
 
-    console.log('inhome posts', posts);
+    // console.log('inhome posts', posts);
     useEffect(() => {
-        console.log('inhome useEffect');
+        // console.log('inhome useEffect');
         async function fetchData() {
             // You can await here
             let response = await checkLogin();
@@ -63,11 +63,11 @@ function Home(props) {
         fetchData().then(async (response) => {
             // (async () =>await new Promise((resolve) => setTimeout(resolve, 1000)))(); //inline delayer
             if (response) {
-                console.log('user signed in , fetchdata', response);
+                // console.log('user signed in , fetchdata', response);
                 regetdataFromserver();
                 //history.go(0);
             } else {
-                console.log('user not signed in ', response);
+                // console.log('user not signed in ', response);
                 history.push('/signin');
             }
         });
@@ -76,12 +76,12 @@ function Home(props) {
 
     function setDetailOpen() {
         setIsPostDetailOpen(!isPostDetailOpen);
-        console.log('isPostDetailOpen', isPostDetailOpen);
+        // console.log('isPostDetailOpen', isPostDetailOpen);
     }
     function handleShowDetail(data) {
         setIsPostDetailOpen(!isPostDetailOpen);
         setDetailData(data);
-        console.log('handleShowDetail', data);
+        //console.log('handleShowDetail', data);
     }
     //console.log('posts in home', posts);
     //console.log('posts.length in home', posts.length);
@@ -100,7 +100,7 @@ function Home(props) {
                     ) : (
                         <div></div>
                     )}
-                    <Posts handleShowDetail={(d) => handleShowDetail(d)} />
+                    <Posts handleShowDetail={handleShowDetail} />
                 </div>
             </div>
         );
