@@ -58,14 +58,15 @@ function Home(props) {
             // You can await here
             let response = await checkLogin();
             // ...
-            (async () =>
-                await new Promise((resolve) => setTimeout(resolve, 1000)))(); //inline delayer
             return response;
         }
         fetchData().then(async (response) => {
+            (async () =>
+                await new Promise((resolve) => setTimeout(resolve, 1000)))(); //inline delayer
             if (response) {
                 console.log('user signed in , fetchdata', response);
                 regetdataFromserver();
+                //history.go(0);
             } else {
                 console.log('user not signed in ', response);
                 history.push('/signin');

@@ -45,7 +45,7 @@ export const GlobalProvider = ({ children }) => {
     const [displayname, setDisplayname] = useState();
     const [username, setUsername] = useState();
     const [useruid, setUseruid] = useState();
-    const [posts, setPosts] = useState();
+    const [posts, setPosts] = useState([]);
     const [profilepic, setProfilepic] = useState();
     const [isusersignedin, setIsusersignedin] = useState(false);
     const [imgblob, setImgblob] = useState();
@@ -64,6 +64,7 @@ export const GlobalProvider = ({ children }) => {
                     (user) => {
                         if (user) {
                             // User is signed in.
+                            setIsusersignedin(true);
                             resolve(user);
                         } else {
                             // No user is signed in.
@@ -121,68 +122,16 @@ export const GlobalProvider = ({ children }) => {
         const colarr = await getDocs(cols);
         //console.log('getDataFromserver colarr', colarr);
         let newarr = [];
-
-        console.log('foreach 1');
-        colarr.forEach(async (thedoc) => {
-            console.log('outside mapPost', thedoc);
-        });
+        let tempCollection = []; // temp
+        //console.log('foreach 1');
 
         const mapPosts = async (thecolarr) => {
             const resArr = [];
             // console.log('in mapPosts thecolarr', thecolarr);
             thecolarr.forEach(async (thedoc) => {
-                // 1st foreach for signed user's doc
-                //console.log('getDataFromserver doc', thedoc);
-                let theref = thedoc.data();
-
-                if (!thecolarr.empty) {
-                    // console.log('thecolarr not empty', !thecolarr.empty);
-                } else {
-                    // console.log('thecolarr is empty', !thecolarr.empty);
-                }
-
-                let docsSnap = await getDocs(
-                    query(
-                        collection(db, thedoc.ref.path, 'comments'),
-                        orderBy('timestamp', 'desc') //, limit(2)
-                    )
-                );
-                //console.log('getDataFromserver docSnap empty', docsSnap.empty);
-                //console.log('getDataFromserver docSnap', docsSnap);
-                let commentArr = [];
-                if (!docsSnap.empty) {
-                    docsSnap.forEach(async (snap) => {
-                        let avatar = (
-                            await getDoc(snap.data().owneruser)
-                        ).data().avatar;
-                        //console.log('avatar. ', avatar);
-                        //console.log('snap data', snap.data());
-                        let newObj = {
-                            ...snap.data(),
-                            avatar: avatar,
-                        };
-                        //console.log('avatar. ', newObj);
-
-                        commentArr.push(newObj);
-                    });
-                }
-
-                let ownerDoc = theref.owneruser;
-                // console.log('ownerDoc', ownerDoc);
-                let ownerdata = (await getDoc(ownerDoc)).data();
-                //console.log('getDataFromserver ownerDoc', ownerdata);
-                let newdoc = {
-                    ...thedoc.data(),
-                    avatar: ownerdata.avatar,
-                    uuid: ownerdata.uid,
-                    comments: commentArr,
-                };
-                //console.log('getDataFromserver newdoc', newdoc);
-                //console.log('newarr1 inforEach', newarr.length);
-                resArr.push(newdoc);
-                newarr.push(newdoc);
+                tempCollection.push(thedoc);
             });
-            console.log('mapPosts resArr', resArr);
+            //console.log('mapPosts resArr', resArr);
             return resArr;
         };
 
@@ -203,95 +152,79 @@ export const GlobalProvider = ({ children }) => {
                 //console.log('focolarr', focolarr);
                 let postsArr = await mapPosts(focolarr);
                 resArr.push(postsArr);
-
-                /*
-                console.log('postsArr', postsArr);*/
-
-                //console.log('resArr.push(...postsArr)', resArr);
-                /*
-                if (fousercol) {
-                    const fousercols = query(fousercol);
-                    // console.log('fousercols', fousercols);
-                    const focolarr = await getDocs(fousercols);
-                    //console.log('focolarr', focolarr);
-
-                    const mapFollwing
-                    focolarr.forEach(async (thedoc) => {
-                        //let ref = doc.data();
-                        //let ownerDoc = ref.owneruser;
-                        //let ownerdata = (await getDoc(ownerDoc)).data();+
-    
-                        let docsSnap = await getDocs(
-                            query(
-                                collection(db, thedoc.ref.path, 'comments'),
-                                orderBy('timestamp', 'desc') //, limit(2)
-                            )
-                        );
-    
-                        let commentArr = [];
-                        if (!docsSnap.empty) {
-                            docsSnap.forEach(async (snap) => {
-                                let avatar = (
-                                    await getDoc(snap.data().owneruser)
-                                ).data().avatar;
-                                //console.log('avatar. ', avatar);
-                                //console.log('snap data', snap.data());
-                                let newObj = {
-                                    ...snap.data(),
-                                    avatar: avatar,
-                                };
-                                //console.log('avatar. ', newObj);
-                                commentArr.push(newObj);
-                            });
-                            //console.log('commentArr', commentArr);
-                        }
-    
-                        let newdoc = {
-                            ...thedoc.data(),
-                            avatar: fodata.avatar,
-                            uuid: fodata.uid,
-                            comments: commentArr,
-                        };
-                        // console.log('newdoc', newdoc);
-                        resArr.push(newdoc);
-    
-                        console.log('newarr2 inforEach', resArr.length);
-                    });
-                }*/
             });
             console.log('resArr', resArr);
             return resArr;
         };
+
         //===================2=================
         // 2st foreach for following user's doc
         //Object.keys(followingusers).map(async (followinguser) => {
-        const newarr1 = await mapPosts(colarr);
+        await mapPosts(colarr);
         //console.log('newarr1', newarr1);
-        const newarr2 = await mapFollowing(followingusers);
+        await mapFollowing(followingusers);
         // newarr = [...newarr1, ...newarr2];
         console.log('after mapFollowing', newarr);
-        async function sortsetPosts(theArr) {
-            let response = theArr.sort((a, b) => {
-                //console.log('sortsetposts ab', a, b);
-                //console.log('compareto', a.timestamp - b.timestamp);
-                return a.timestamp - b.timestamp > 0;
+        async function sortsetPosts(thenewarr) {
+            console.log(thenewarr);
+            console.log('in sortsetPosts', thenewarr.length); // it's 0, so never sort
+
+            let sorted = thenewarr.sort((a, b) => {
+                console.log('compareto ab', a, b);
+                console.log('compareto', a.timestamp - b.timestamp);
+                return b.timestamp - a.timestamp;
             });
-            console.log('sortsetPosts response', response);
-            return response;
+            console.log('sortsetPosts response', sorted);
+            return sorted;
         }
 
-        // continue processing here
-        // results[0] is the result of the first promise in the promises array
-        console.log('before sorted newarr', newarr);
+        let tempArr = [];
+        console.log('tempCollection', tempCollection);
+        for (let col of tempCollection) {
+            let theref = col.data();
 
-        sortsetPosts(newarr).then((response) => {
-            console.log('response', response);
-            //if (response.length > 0) {
-            setPosts(response);
-            //}
-        });
+            let docsSnap = await getDocs(
+                query(
+                    collection(db, col.ref.path, 'comments'),
+                    orderBy('timestamp', 'desc') //, limit(2)
+                )
+            );
 
-        console.log('foreach 3');
+            let commentArr = [];
+            if (!docsSnap.empty) {
+                docsSnap.forEach(async (snap) => {
+                    let avatar = (await getDoc(snap.data().owneruser)).data()
+                        .avatar;
+                    //console.log('avatar. ', avatar);
+                    //console.log('snap data', snap.data());
+                    let newObj = {
+                        ...snap.data(),
+                        avatar: avatar,
+                    };
+                    //console.log('avatar. ', newObj);
+
+                    commentArr.push(newObj);
+                });
+            }
+            let ownerDoc = theref.owneruser;
+            // console.log('ownerDoc', ownerDoc);
+            let ownerdata = (await getDoc(ownerDoc)).data();
+            //console.log('getDataFromserver ownerDoc', ownerdata);
+            let newdoc = {
+                ...col.data(),
+                avatar: ownerdata.avatar,
+                uuid: ownerdata.uid,
+                comments: commentArr,
+            };
+
+            tempArr.push(newdoc);
+        }
+        console.log('collection tempArr', tempArr);
+        let sortedTempArr = await sortsetPosts(tempArr);
+
+        setPosts(sortedTempArr);
+
+        //console.log('foreach 3');
     }
 
     async function regetdataFromserver() {
@@ -582,7 +515,7 @@ export const GlobalProvider = ({ children }) => {
                     setCuruser(user);
                     //console.log('onSubmitSignin ', curuser);
                     setCuremail(email);
-                    console.log('insubmitsignin dispayname', user.displayName);
+                    console.log('insubmitsignin user', user);
                     setDisplayname(user.displayName);
                     setProfilepic(user.photoURL);
                     setCuremail(user.email);
