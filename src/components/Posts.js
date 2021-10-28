@@ -24,37 +24,36 @@ const Posts = ({ handleShowDetail }) => {
     }, [posts]);*/
 
     //  console.log('in posts', posts);
+    const postRender = (post) => {
+        //  console.log('post under map', post);
+        let locComments = post.comments;
+        if (locComments !== [] && locComments.length > 2) {
+            locComments = [locComments[0], locComments[1]];
+        }
+        return (
+            <Post
+                post={post}
+                author={post.author}
+                username={post.username}
+                topic={post.topic}
+                timestamp={() =>
+                    post.timestamp === null
+                        ? Date.now()
+                        : post.timestamp.toDate().toString()
+                }
+                pic={post.pic}
+                key={uuidv4()}
+                avatar={post.avatar}
+                useruid={post.uuid}
+                postid={post.postid}
+                comments={locComments}
+                handleShowDetail={handleShowDetail}
+            />
+        );
+    };
     if (posts !== undefined) {
         return (
-            <div className="posts">
-                {posts.map((post) => {
-                    //  console.log('post under map', post);
-                    let locComments = post.comments;
-                    if (locComments !== [] && locComments.length > 2) {
-                        locComments = [locComments[0], locComments[1]];
-                    }
-                    return (
-                        <Post
-                            post={post}
-                            author={post.author}
-                            username={post.username}
-                            topic={post.topic}
-                            timestamp={() =>
-                                post.timestamp === null
-                                    ? Date.now()
-                                    : post.timestamp.toDate().toString()
-                            }
-                            pic={post.pic}
-                            key={uuidv4()}
-                            avatar={post.avatar}
-                            useruid={post.uuid}
-                            postid={post.postid}
-                            comments={locComments}
-                            handleShowDetail={handleShowDetail}
-                        />
-                    );
-                })}
-            </div>
+            <div className="posts">{posts.map((post) => postRender(post))}</div>
         );
     } else {
         return <div className="posts"></div>;

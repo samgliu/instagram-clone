@@ -635,6 +635,28 @@ export const GlobalProvider = ({ children }) => {
             await regetdataFromserver();
         }
     }
+
+    async function searchUserFromServer(keyword) {
+        const auth = getAuth();
+        console.log(keyword);
+        if (auth) {
+            const usersRef = collection(db, 'users');
+            const res = query(
+                usersRef,
+                where('username', '>=', keyword),
+                where('username', '<=', keyword + '~')
+            );
+            const usersDocs = await getDocs(res);
+            //console.log('searchUserFromServer', usersDocs);
+            let userArr = [];
+            usersDocs.forEach((locDoc) => {
+                //console.log('locDoc', locDoc.data());
+                userArr.push(locDoc.data());
+            });
+
+            return userArr; // FIXME server delay
+        }
+    }
     async function onSubmitSignin(email, password) {
         const auth = getAuth();
         if (auth) {
@@ -771,6 +793,7 @@ export const GlobalProvider = ({ children }) => {
                 saveCommentToServer,
                 deletePostFromServer,
                 saveProfileInfoToServer,
+                searchUserFromServer,
             }}
         >
             {children}

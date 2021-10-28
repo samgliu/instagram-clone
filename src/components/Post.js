@@ -63,6 +63,24 @@ const Post = ({
         await regetdataFromserver();
         setIsPostDeleted(true);
     }
+    function cmtRender(cmt) {
+        let cmtUid = cmt.owneruser.path.substring(6);
+        return (
+            <div key={uuidv4()}>
+                <Link
+                    to={{
+                        pathname: `/profile/${cmt.username}/${cmtUid}`,
+                    }}
+                    onClick={(e) =>
+                        handleProceed(e, `/profile/${cmt.username}/${cmtUid}`)
+                    }
+                >
+                    <strong> {cmt.username}</strong>
+                </Link>
+                &nbsp; {cmt.comment}
+            </div>
+        );
+    }
 
     return (
         <div
@@ -121,27 +139,7 @@ const Post = ({
                 </div>
 
                 <div className="commentsWrapper">
-                    {comments.map((cmt) => {
-                        let cmtUid = cmt.owneruser.path.substring(6);
-                        return (
-                            <div key={uuidv4()}>
-                                <Link
-                                    to={{
-                                        pathname: `/profile/${cmt.username}/${cmtUid}`,
-                                    }}
-                                    onClick={(e) =>
-                                        handleProceed(
-                                            e,
-                                            `/profile/${cmt.username}/${cmtUid}`
-                                        )
-                                    }
-                                >
-                                    <strong> {cmt.username}</strong>
-                                </Link>
-                                &nbsp; {cmt.comment}
-                            </div>
-                        );
-                    })}
+                    {comments.map((cmt) => cmtRender(cmt))}
                 </div>
                 <div className="posttime">{timestamp}</div>
                 <div className="postCmtContainer">
