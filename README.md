@@ -3,8 +3,7 @@
 A instagram clone React App based on Firebase.  
 To Do List:
 
-> user searching function.  
->  followers list  
+> followers list  
 >  Message function.
 
 ## Available Scripts
