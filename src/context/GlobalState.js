@@ -240,7 +240,7 @@ export const GlobalProvider = ({ children }) => {
                 setUsername(auth.currentUser.displayName);
                 setUseruid(auth.currentUser.uid);
                 setProfilepic(auth.currentUser.photoURL);
-                console.log('User is signed in', user);
+                //console.log('User is signed in', user);
             } else {
                 setIsusersignedin(false);
                 console.log('// No user is signed in.');

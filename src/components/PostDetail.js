@@ -53,7 +53,7 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
         history.push(link);
     };
     let postUid = post.owneruser.path.substring(6);
-    console.log('in post detail ', post);
+    //console.log('in post detail ', post);
     function handleThreePtClicked() {
         console.log();
     }

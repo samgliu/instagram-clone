@@ -36,7 +36,7 @@ const Posts = ({ handleShowDetail }) => {
                 author={post.author}
                 username={post.username}
                 topic={post.topic}
-                timestamp={() =>
+                timestamp={
                     post.timestamp === null
                         ? Date.now()
                         : post.timestamp.toDate().toString()
