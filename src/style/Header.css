@@ -10,7 +10,8 @@
     background-color: white;
 }
 .Headerimgwrapper {
-    margin-left: 20%;
+    margin-left: 15%;
+    margin-right: 2%;
 }
 .Headerimgwrapper .Headerimg {
     width: 103px;
@@ -50,6 +51,7 @@
     border: 0.5px solid #ecebeb;
     border-radius: 3px;
     height: 20px;
+    width: 150px;
 }
 
 .ProfileMenu {
@@ -154,9 +156,9 @@
 }
 .searchResultWrapperHeader {
     font-weight: 600;
-    height: 20px;
+    height: 25px;
     margin-bottom: 2px;
-    padding-bottom: 2px;
+    padding: 5px;
     border-bottom: 1px solid #e4e4e4;
 }
 .searchResultContainer {
