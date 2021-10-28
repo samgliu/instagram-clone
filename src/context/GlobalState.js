@@ -51,7 +51,7 @@ export const GlobalProvider = ({ children }) => {
     const [isusersignedin, setIsusersignedin] = useState(false);
     const [imgblob, setImgblob] = useState();
     const [profiledata, setProfiledata] = useState();
-    const [isProfileowner, setIsProfileowner] = useState(false);
+    //const [isProfileowner, setIsProfileowner] = useState(false);
     const [isfollowed, setIsfollowed] = useState(false);
 
     const storage = getStorage();
@@ -263,11 +263,11 @@ export const GlobalProvider = ({ children }) => {
                 let avatar = avatardata.avatar; // avatar info under user's doc
                 let username = avatardata.username;
                 // console.log('username, owner', username, ownerusername);
-                if (username === ownerusername) {
+                /* if (username === ownerusername) {
                     setIsProfileowner(true);
                 } else {
                     setIsProfileowner(false);
-                }
+                }*/
                 let loccol = collection(locdoc, 'post');
                 const cols = query(loccol, orderBy('timestamp', 'desc'));
                 const colarr = await getDocs(cols);
@@ -321,11 +321,7 @@ export const GlobalProvider = ({ children }) => {
                 let nickName = avatardata.name;
                 let username = avatardata.username;
                 //  console.log('username, owner', username, ownerusername);
-                if (username === ownerusername) {
-                    setIsProfileowner(true);
-                } else {
-                    setIsProfileowner(false);
-                }
+
                 let loccol = collection(locdoc, 'post');
                 const cols = query(loccol, orderBy('timestamp', 'desc'));
                 const colarr = await getDocs(cols);
@@ -783,7 +779,7 @@ export const GlobalProvider = ({ children }) => {
                 getprofileFromserver,
                 profiledata,
                 saveAvatartoserver,
-                isProfileowner,
+
                 checkLogin,
                 isfollowed,
                 setIsfollowed,

@@ -27,13 +27,13 @@ function Profile(props) {
         setImgblob,
         imgblob,
         saveAvatartoserver,
-        isProfileowner,
         isfollowed,
         setIsfollowed,
         followTarget,
         unfollowTarget,
         checkisFollowed,
         saveProfileInfoToServer,
+        displayname,
     } = useContext(GlobalContext);
 
     const [profileUsersignedin, setProfileUsersignedin] = useState(false);
@@ -42,12 +42,18 @@ function Profile(props) {
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
     const [detailData, setDetailData] = useState();
     const [editingInfo, setEditingInfo] = useState(false);
+    const [isProfileowner, setIsProfileowner] = useState(false);
     let nickName = '';
     let information = '';
     //console.log('inprofile', props);
     useEffect(() => {
         async function fetchData() {
             if (isusersignedin) {
+                if (displayname === props.username) {
+                    setIsProfileowner(true);
+                } else {
+                    setIsProfileowner(false);
+                }
                 // console.log('isusersignedin changed', isusersignedin);
                 await getprofileFromserver(props.uuid).then(() => {
                     /* console.log(
@@ -70,7 +76,7 @@ function Profile(props) {
         fetchData();
 
         //console.log('isfollowed', isfollowed);
-    }, [props, isfollowed, isusersignedin]);
+    }, [props, isfollowed, isusersignedin, isProfileowner]);
 
     /*
     useEffect(() => {
