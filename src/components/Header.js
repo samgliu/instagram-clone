@@ -15,6 +15,7 @@ function Header() {
         setIsHomeClicked,
         setIsProfileMenuOpen,
         searchUserFromServer,
+        setMessageButtonClicked,
     } = useContext(GlobalContext);
     // console.log('indeader profilepic', profilepic);
     const [isSearchOpen, setIsSearchOpen] = useState(false); //FIXME change back to false
@@ -30,7 +31,7 @@ function Header() {
         e.preventDefault();
         setIsHomeClicked(true);
         setIsProfileMenuOpen(false);
-        //  console.log('homebtnonClick');
+        setMessageButtonClicked(false);
         history.push('/');
     }
     function searchOnFocus(e) {
@@ -50,7 +51,7 @@ function Header() {
         }
     }
     useEffect(() => {
-        console.log('searching');
+        // console.log('searching');
     }, [searchResult]);
     // onBlur={(e) => searchOnBlur(e)}
     return (

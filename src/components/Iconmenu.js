@@ -1,5 +1,6 @@
 import { GlobalContext } from '../context/GlobalState';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProfileMenu from '../components/ProfileMenu';
 function Iconmenu({ profilepic }) {
     const {
@@ -12,6 +13,8 @@ function Iconmenu({ profilepic }) {
         history,
         username,
         regetdataFromserver,
+        messageButtonClicked,
+        setMessageButtonClicked,
     } = useContext(GlobalContext);
     function profilebtnonClick(e) {
         e.preventDefault();
@@ -22,23 +25,25 @@ function Iconmenu({ profilepic }) {
         e.preventDefault();
         //setIsHomeClicked(!isHomeClicked);
         //  console.log('homebtnonClick');
-        async function setHome() {
-            //  console.log('setIsHomeClicked();');
-            //setIsHomeClicked(true);
-        }
+
         setIsHomeClicked(true);
+        console.log(' setMessageButtonClicked(false);', messageButtonClicked);
+        setMessageButtonClicked(false);
+
         await regetdataFromserver();
-        history.push('/');
         setIsProfileMenuOpen(false);
         //console.log('IsHomeClicked', isHomeClicked);
+        history.push('/');
     }
     function newpostonClick(e) {
         e.preventDefault();
         setIsNewpostOpen(!isNewpostOpen);
     }
-    function inboxOnClick(e) {
+    function messageOnClick(e) {
         e.preventDefault();
-        // console.log('inboxOnClick');
+        history.push('/message');
+        setIsHomeClicked(false);
+        setMessageButtonClicked(true);
     }
     return (
         <div className="iconmenu">
@@ -74,19 +79,37 @@ function Iconmenu({ profilepic }) {
             </div>
 
             <div className="iconwrapper">
-                <a href="/inbox" tabIndex="0" onClick={(e) => inboxOnClick(e)}>
-                    <svg
-                        aria-label="Direct"
-                        color="#262626"
-                        fill="#262626"
-                        height="22"
-                        role="img"
-                        viewBox="0 0 48 48"
-                        width="22"
-                    >
-                        <path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path>
-                    </svg>
-                </a>
+                <Link
+                    to="/message"
+                    tabIndex="0"
+                    onClick={(e) => messageOnClick(e)}
+                >
+                    {!messageButtonClicked ? (
+                        <svg
+                            aria-label="Direct"
+                            color="#262626"
+                            fill="#262626"
+                            height="22"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="22"
+                        >
+                            <path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z"></path>
+                        </svg>
+                    ) : (
+                        <svg
+                            aria-label="Direct"
+                            color="#262626"
+                            fill="#262626"
+                            height="22"
+                            role="img"
+                            viewBox="0 0 48 48"
+                            width="22"
+                        >
+                            <path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l13.2 13c.5.4 1.1.6 1.7.3l16.6-8c.7-.3 1.6-.1 2 .5.4.7.2 1.6-.5 2l-15.6 9.9c-.5.3-.8 1-.7 1.6l4.6 19c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.5-.5.5-1.1.2-1.6z"></path>
+                        </svg>
+                    )}
+                </Link>
             </div>
             <div className="iconwrapper">
                 <button

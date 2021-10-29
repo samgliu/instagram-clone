@@ -3,6 +3,7 @@ import Home from './Home';
 import Signup from './Signup';
 import Signin from './Signin';
 import Profile from './Profile';
+import Message from './Message';
 import { GlobalProvider } from '../context/GlobalState';
 
 const Routes = () => {
@@ -14,6 +15,7 @@ const Routes = () => {
                     <Route exact path="/signup" component={Signup} />
                     <Route exact path="/signin" component={Signin} />
                     <Route exact path="/signout" component={Signin} />
+                    <Route exact path="/message" component={Message} />
                     <Route
                         exact
                         path="/profile/:username/:uuid"

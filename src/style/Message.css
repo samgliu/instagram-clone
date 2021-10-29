@@ -1,0 +1,243 @@
+.msgContainer {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    background-color: white;
+    width: 85%;
+    height: 900px;
+    border-radius: 5px;
+    font-weight: 400;
+    border: 1px solid #f3f3f3;
+    color: rgb(38, 38, 38);
+    font-size: 14px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.newMsgBtn {
+    background-color: rgb(0, 149, 246);
+    border-radius: 3px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 8px 8px 8px 8px;
+    width: 120px;
+    cursor: pointer;
+}
+.msgLeft {
+    width: 25%;
+    min-width: 250px;
+    height: 100%;
+    border-right: 1px solid #e4e4e4;
+}
+.msgLeftHeader {
+    border-bottom: 1px solid #e4e4e4;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.msgLeftHeader span {
+    margin: 10px 0px 10px 30%;
+    font-weight: 500;
+    font-size: 16px;
+}
+.msgLeftHeader svg {
+    margin: 10px;
+    cursor: pointer;
+}
+.msgListWrapper {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    padding: auto;
+    align-items: center;
+}
+.msgListItem {
+    cursor: pointer;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 500;
+    color: #6b6b6b;
+    justify-content: left;
+}
+.msgListItem:hover {
+    background-color: #fafafa;
+}
+.msgRight {
+    width: 75%;
+    min-width: 400px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.msgRight h2 {
+    font-weight: 300;
+}
+.msgDefaultWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.msgSelectWrapper {
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 0.8em;
+    color: #262626;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: 600px;
+    top: 100px;
+    border: 1px solid gray;
+    background-color: white;
+    position: fixed;
+    box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    z-index: 1;
+}
+.newMsgHeader {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #e4e4e4;
+    align-items: center;
+}
+.newMsgHeader button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1.8em;
+}
+
+.nextBtn {
+    padding: 8px;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: rgb(0, 149, 246);
+    cursor: pointer;
+}
+.newMsgToBox {
+    padding: 5px;
+    font-size: 1.5em;
+    font-weight: 500;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.newMsgToBox input {
+    border: none;
+    padding: 5px;
+}
+.newMsgToBox input::placeholder {
+    text-align: left;
+    font-size: 1em;
+}
+.msgSelectWrapper span {
+    margin: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.searchResultBox {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: left;
+    align-items: center;
+    height: 30px;
+}
+.searchResultBox img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    padding: 2px;
+}
+.searchResultItem {
+    width: 95%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.searchResultItem:hover {
+    background-color: #fafafa;
+}
+.itemInfoWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    font-size: 1em;
+}
+.searchResultItem svg {
+    margin-right: 10px;
+}
+.msgSelectWrapper .selectedWrapper {
+    padding: 5px;
+    background-color: #e0f1ff;
+    color: rgb(0, 149, 246);
+    align-items: center;
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: 400;
+}
+.chatAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 2px;
+    margin-left: 20px;
+}
+.chatHistoryWrapper {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.chatHistoryBox {
+    display: flex;
+    flex-direction: column; /*reverse*/
+    gap: 0.1em;
+    margin: 0.1em;
+}
+.msgSendBox {
+    min-width: 500px;
+}
+.msgSendBox input {
+    border: 1px solid #e4e4e4;
+    font-size: 1.5em;
+    width: 100%;
+    border-radius: 5px;
+}
+.leftchatItem {
+    align-self: flex-start;
+    background-color: #efefef;
+    line-height: 20px;
+    border-radius: 5px;
+    max-width: 45%;
+    padding: 0.25em;
+}
+.rightchatItem {
+    align-self: flex-end;
+    background-color: #efefef;
+    line-height: 20px;
+    max-width: 45%;
+    border-radius: 5px;
+    padding: 0.25em;
+}
+.chatTime {
+    font-size: 0.6em;
+    font-weight: 300;
+}

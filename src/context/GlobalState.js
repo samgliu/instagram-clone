@@ -39,6 +39,7 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isHomeClicked, setIsHomeClicked] = useState(true);
+    const [messageButtonClicked, setMessageButtonClicked] = useState(false);
     const [curuser, setCuruser] = useState();
     const [curemail, setCuremail] = useState();
     const [info, setInfo] = useState();
@@ -53,6 +54,11 @@ export const GlobalProvider = ({ children }) => {
     const [profiledata, setProfiledata] = useState();
     //const [isProfileowner, setIsProfileowner] = useState(false);
     const [isfollowed, setIsfollowed] = useState(false);
+    const [allRooms, setAllRooms] = useState([]);
+    const [chatHistory, setChatHistory] = useState([]);
+    const [chatUnsubscribe, setChatUnsubscribe] = useState();
+    const [friendId, setFriendId] = useState();
+    const [chatRoomId, setChatRoomId] = useState();
 
     const storage = getStorage();
     const history = useHistory();
@@ -225,7 +231,7 @@ export const GlobalProvider = ({ children }) => {
         let sortedTempArr = await sortsetPosts(tempArr);
 
         setPosts(sortedTempArr);
-
+        await fetchGroupByUserID(theuid);
         //console.log('foreach 3');
     }
 
@@ -649,7 +655,7 @@ export const GlobalProvider = ({ children }) => {
                 //console.log('locDoc', locDoc.data());
                 userArr.push(locDoc.data());
             });
-
+            //console.log('search...', userArr);
             return userArr; // FIXME server delay
         }
     }
@@ -745,6 +751,155 @@ export const GlobalProvider = ({ children }) => {
         setCuruser(null);
     }
 
+    async function fetchGroupByUserID(uid) {
+        const roomRef = collection(db, 'messageRoom');
+        const q = query(roomRef, where('members', 'array-contains', uid));
+        //const usersDocs = await getDocs(res);
+        //console.log(usersDocs);
+        let unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const rooms = [];
+            querySnapshot.forEach(async (doc) => {
+                let members = doc.data().members;
+                let friendData = await fetchFriendInfo(members);
+                const data = {
+                    ...doc.data(),
+                    roomid: doc.ref.id,
+                    friendAvatar: friendData.avatar,
+                    friendName: friendData.username,
+                };
+                //if (data.recentMessage) rooms.push(data);
+                rooms.push(data);
+                setTimeout(() => {
+                    //console.log(rooms.length);
+                    setAllRooms(rooms);
+                }, 1000);
+            });
+        });
+    }
+
+    async function fetchFriendInfo(arr) {
+        const auth = getAuth();
+        let friendId;
+        if (auth) {
+            let myUid = auth.currentUser.uid;
+            friendId = arr.filter((a) => a !== myUid);
+            setFriendId(friendId[0]);
+        }
+        //console.log('friendsId', friendId);
+        let data = await fetchInfoById(friendId[0]);
+        return data;
+    }
+
+    async function fetchInfoById(uid) {
+        const auth = getAuth();
+        if (auth) {
+            let locdoc = doc(db, 'users', `${uid}`); //, 'post'
+            // console.log(locdoc);
+            let locdata = (await getDoc(locdoc)).data();
+            let avatar = locdata.avatar; // avatar info under user's doc
+            let info = locdata.info;
+            let nickName = locdata.name;
+            let username = locdata.username;
+            return { avatar: avatar, username: username, name: nickName };
+        }
+    }
+
+    async function fetchChatHistoryByRoom(roomid) {
+        const auth = getAuth();
+        setChatRoomId(roomid);
+        if (auth) {
+            let q = query(
+                collection(db, 'messages', `${roomid}`, 'submessage'),
+                orderBy('timestamp', 'asc')
+            );
+
+            let unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const chatArr = [];
+                querySnapshot.forEach(async (snap) => {
+                    //  console.log(snap);
+                    let data = snap.data();
+                    let theUid = data.from;
+                    let pos = 1;
+                    if (theUid === auth.currentUser.uid) {
+                        pos = 0;
+                    }
+                    let time;
+                    if (data.timestamp) {
+                        time = data.timestamp.toDate().toLocaleTimeString();
+                    } else {
+                        time = '';
+                    }
+                    //console.log(data.timestamp.toDate().toLocaleTimeString());
+                    let newObj = {
+                        ...data,
+                        position: pos,
+                        time: time,
+                    };
+                    chatArr.push(newObj);
+                });
+                // console.log(chatArr);
+                setTimeout(() => {
+                    setChatHistory(chatArr);
+                }, 1000);
+            });
+            //setChatUnsubscribe(unsubscribe);
+        }
+    }
+
+    async function postChatToServer(content) {
+        const auth = getAuth();
+        let user = auth.currentUser;
+        //console.log(content, chatRoomId);
+        const chatMsg = {
+            content: content,
+            from: user.uid,
+            timestamp: serverTimestamp(),
+        };
+        if (user) {
+            ///messages/s0IYEWn6SOQjFCze427R/submessage
+            setDoc(
+                doc(collection(db, 'messages', `${chatRoomId}`, 'submessage')),
+                chatMsg,
+                { merge: true }
+            );
+        }
+    }
+
+    async function createChatroomOnServer(target) {
+        const auth = getAuth();
+        let user = auth.currentUser;
+        let isCreatedBefore = false;
+        let friendUid = target.uid;
+        let members = {
+            members: [friendUid, user.uid],
+        };
+
+        const roomRef = collection(db, 'messageRoom');
+        let snap = query(roomRef, where('members', 'array-contains', members));
+        const usersDocs = await getDocs(snap);
+        if (!usersDocs.empty) {
+            isCreatedBefore = true;
+        }
+
+        if (!isCreatedBefore) {
+            if (user) {
+                let username = target.username;
+
+                if (user) {
+                    ///messages/s0IYEWn6SOQjFCze427R/submessage
+                    let ref = await addDoc(
+                        collection(db, 'messageRoom'),
+                        members
+                    );
+                    let roomId = ref.id;
+                    setChatRoomId(roomId);
+                    setFriendId(friendUid);
+                }
+            }
+        }
+        //console.log(target);
+    }
+
     return (
         <GlobalContext.Provider
             value={{
@@ -779,7 +934,8 @@ export const GlobalProvider = ({ children }) => {
                 getprofileFromserver,
                 profiledata,
                 saveAvatartoserver,
-
+                messageButtonClicked,
+                setMessageButtonClicked,
                 checkLogin,
                 isfollowed,
                 setIsfollowed,
@@ -790,6 +946,15 @@ export const GlobalProvider = ({ children }) => {
                 deletePostFromServer,
                 saveProfileInfoToServer,
                 searchUserFromServer,
+                fetchGroupByUserID,
+                allRooms,
+                fetchFriendInfo,
+                chatHistory,
+                fetchChatHistoryByRoom,
+                postChatToServer,
+                friendId,
+                chatRoomId,
+                createChatroomOnServer,
             }}
         >
             {children}
