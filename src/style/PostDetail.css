@@ -116,3 +116,7 @@
 .detailButton {
     font-size: 8px;
 }
+.commentsWrapper {
+    display: flex;
+    flex-direction: column-reverse;
+}

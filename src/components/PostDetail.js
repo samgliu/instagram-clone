@@ -131,31 +131,35 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
                         </div>
                         <div>{post.topic}</div>
                     </div>
-                    {post.comments.map((cmt) => {
-                        // console.log('commentsDisplay', cmt);
-                        let cmtUid = cmt.owneruser.path.substring(6);
-                        return (
-                            <div className="singleCmt" key={uuidv4()}>
-                                <div className="avatarContainer">
-                                    <img src={cmt.avatar} alt="" />
-                                    <Link
-                                        to={{
-                                            pathname: `/profile/${cmt.username}/${postUid}`,
-                                        }}
-                                        onClick={(e) =>
-                                            handleProceed(
-                                                e,
-                                                `/profile/${cmt.username}/${cmtUid}`
-                                            )
-                                        }
-                                    >
-                                        <strong>{cmt.username}&nbsp;</strong>
-                                    </Link>
+                    <div className="commentsWrapper">
+                        {post.comments.map((cmt) => {
+                            // console.log('commentsDisplay', cmt);
+                            let cmtUid = cmt.owneruser.path.substring(6);
+                            return (
+                                <div className="singleCmt" key={uuidv4()}>
+                                    <div className="avatarContainer">
+                                        <img src={cmt.avatar} alt="" />
+                                        <Link
+                                            to={{
+                                                pathname: `/profile/${cmt.username}/${postUid}`,
+                                            }}
+                                            onClick={(e) =>
+                                                handleProceed(
+                                                    e,
+                                                    `/profile/${cmt.username}/${cmtUid}`
+                                                )
+                                            }
+                                        >
+                                            <strong>
+                                                {cmt.username}&nbsp;
+                                            </strong>
+                                        </Link>
+                                    </div>
+                                    <div>{cmt.comment}</div>
                                 </div>
-                                <div>{cmt.comment}</div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
                 <div className="detailCmtContainer">
                     <input
