@@ -68,9 +68,11 @@
     color: #6b6b6b;
     justify-content: left;
 }
+
 .msgListItem:hover {
     background-color: #fafafa;
 }
+
 .msgRight {
     width: 75%;
     min-width: 400px;
@@ -79,6 +81,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .msgRight h2 {
     font-weight: 300;
 }
@@ -202,42 +205,63 @@
     margin-left: 20px;
 }
 .chatHistoryWrapper {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    display: block;
 }
 .chatHistoryBox {
     display: flex;
     flex-direction: column; /*reverse*/
     gap: 0.1em;
     margin: 0.1em;
+    padding: 0.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
-.msgSendBox {
-    min-width: 500px;
-}
-.msgSendBox input {
-    border: 1px solid #e4e4e4;
-    font-size: 1.5em;
-    width: 100%;
-    border-radius: 5px;
-}
+
 .leftchatItem {
-    align-self: flex-start;
-    background-color: #efefef;
+    display: flex;
+    justify-content: flex-start;
     line-height: 20px;
     border-radius: 5px;
-    max-width: 45%;
+    width: 100%;
     padding: 0.25em;
 }
 .rightchatItem {
-    align-self: flex-end;
-    background-color: #efefef;
+    display: flex;
+    justify-content: flex-end;
     line-height: 20px;
-    max-width: 45%;
+    width: 99%;
     border-radius: 5px;
     padding: 0.25em;
+}
+.chatItem {
+    padding: 0.35em;
+    background-color: #efefef;
+    border-radius: 0.35em;
 }
 .chatTime {
     font-size: 0.6em;
     font-weight: 300;
+}
+
+.msgSendBox {
+    min-width: 500px;
+    text-align: center;
+    margin: 0.25em;
+}
+.msgSendBox input {
+    border: 1px solid #e4e4e4;
+    font-size: 1.2em;
+    height: 2em;
+    width: 96%;
+    border-radius: 0.35em;
+}
+.msgSendBox input::placeholder {
+    text-align: left;
+}
+.select {
+    background-color: #f9f9f9;
 }

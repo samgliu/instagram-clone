@@ -5,6 +5,7 @@ import defaultMessageImg from '../images/defaultMessage.jpg';
 import { GlobalContext } from '../context/GlobalState';
 import { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { doc } from '@firebase/firestore';
 function Message(props) {
     const {
         getUserinfo,
@@ -46,10 +47,11 @@ function Message(props) {
     const [keyword, setKeyword] = useState('');
     useEffect(() => {
         // console.log('in useEffect', allRooms);
-    }, [chatHistory]);
+    }, [chatHistory, isDefaultView]);
 
     function nameOnClick(e, roomid) {
         e.preventDefault();
+        //console.log(e);
         setIsDefaultView(false);
         fetchChatHistoryByRoom(roomid);
     }
@@ -79,6 +81,7 @@ function Message(props) {
                 <div
                     className="msgListItem"
                     key={room.roomid}
+                    id={room.roomid}
                     onClick={(e) => nameOnClick(e, room.roomid)}
                 >
                     <img
@@ -134,19 +137,21 @@ function Message(props) {
                 </div>
                 <div className="msgRight">
                     {isDefaultView ? (
-                        <div className="msgDefaultWrapper">
-                            <img src={defaultMessageImg} alt="" />
-                            <h2>Your Messages</h2>
-                            <p>
-                                Send private photos and messages to a friend or
-                                group
-                            </p>
-                            <button
-                                className="newMsgBtn"
-                                onClick={(e) => sendMsgOnClick(e)}
-                            >
-                                Send Message
-                            </button>
+                        <div className="centerWrapper">
+                            <div className="msgDefaultWrapper">
+                                <img src={defaultMessageImg} alt="" />
+                                <h2>Your Messages</h2>
+                                <p>
+                                    Send private photos and messages to a friend
+                                    or group
+                                </p>
+                                <button
+                                    className="newMsgBtn"
+                                    onClick={(e) => sendMsgOnClick(e)}
+                                >
+                                    Send Message
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <div className="chatHistoryWrapper">
@@ -159,11 +164,15 @@ function Message(props) {
                                                     ? 'rightchatItem'
                                                     : 'leftchatItem'
                                             }
-                                            key={uuidv4()}
                                         >
-                                            <div>{chat.content}</div>
-                                            <div className="chatTime">
-                                                {chat.time}
+                                            <div
+                                                key={uuidv4()}
+                                                className="chatItem"
+                                            >
+                                                <div>{chat.content}</div>
+                                                <div className="chatTime">
+                                                    {chat.time}
+                                                </div>
                                             </div>
                                         </div>
                                     );
@@ -172,6 +181,7 @@ function Message(props) {
                             <div className="msgSendBox">
                                 <input
                                     type="text"
+                                    placeholder="Message..."
                                     onChange={(e) => {
                                         setKeyword(e.target.value);
                                     }}

@@ -640,7 +640,7 @@ export const GlobalProvider = ({ children }) => {
 
     async function searchUserFromServer(keyword) {
         const auth = getAuth();
-        console.log(keyword);
+        // console.log(keyword);
         if (auth) {
             const usersRef = collection(db, 'users');
             const res = query(
@@ -894,6 +894,7 @@ export const GlobalProvider = ({ children }) => {
                     let roomId = ref.id;
                     setChatRoomId(roomId);
                     setFriendId(friendUid);
+                    await fetchChatHistoryByRoom(roomId);
                 }
             }
         }
