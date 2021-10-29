@@ -3,10 +3,18 @@
 A instagram clone React App based on Firebase.  
 To Do List:
 
-> Followers list.
-> Counter
-> Message function.
+> partial display
 > mobile view
+
+## Feature
+
+### Sign up/Sign in
+
+### Post/Comment
+
+### Profile w/ Avatar editing
+
+### Chat
 
 ## Available Scripts
 
