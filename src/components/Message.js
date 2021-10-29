@@ -41,6 +41,7 @@ function Message(props) {
         fetchChatHistoryByRoom,
         postChatToServer,
         createChatroomOnServer,
+        chatRoomId,
     } = useContext(GlobalContext);
     const [isDefaultView, setIsDefaultView] = useState(true);
     const [isSelectBoxOpen, setIsSelectBoxOpen] = useState(false); // FIXME change to false
@@ -79,7 +80,11 @@ function Message(props) {
         if (room) {
             return (
                 <div
-                    className="msgListItem"
+                    className={
+                        chatRoomId === room.roomid
+                            ? 'msgListItem select'
+                            : 'msgListItem'
+                    }
                     key={room.roomid}
                     id={room.roomid}
                     onClick={(e) => nameOnClick(e, room.roomid)}

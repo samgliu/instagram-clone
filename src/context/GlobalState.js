@@ -825,7 +825,20 @@ export const GlobalProvider = ({ children }) => {
                     }
                     let time;
                     if (data.timestamp) {
-                        time = data.timestamp.toDate().toLocaleTimeString();
+                        let theDif =
+                            Math.round(Date.now() / 1000) -
+                            data.timestamp.seconds;
+                        if (theDif < 86400) {
+                            time = data.timestamp
+                                .toDate()
+                                .toString()
+                                .substring(16, 24);
+                        } else {
+                            time = data.timestamp
+                                .toDate()
+                                .toString()
+                                .substring(0, 15);
+                        }
                     } else {
                         time = '';
                     }

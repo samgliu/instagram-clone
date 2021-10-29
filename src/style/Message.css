@@ -238,9 +238,11 @@
     padding: 0.25em;
 }
 .chatItem {
-    padding: 0.35em;
+    padding: 0.55em;
     background-color: #efefef;
     border-radius: 0.35em;
+    max-width: 45%;
+    line-height: 1.4em;
 }
 .chatTime {
     font-size: 0.6em;

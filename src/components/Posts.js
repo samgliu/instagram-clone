@@ -38,8 +38,8 @@ const Posts = ({ handleShowDetail }) => {
                 topic={post.topic}
                 timestamp={
                     post.timestamp === null
-                        ? Date.now()
-                        : post.timestamp.toDate().toString()
+                        ? Date.now().toString().substring(0, 15)
+                        : post.timestamp.toDate().toString().substring(0, 15)
                 }
                 pic={post.pic}
                 key={uuidv4()}
