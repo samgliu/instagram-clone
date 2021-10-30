@@ -276,9 +276,7 @@
 @media screen and (max-width: 767px) {
     .msgContainer {
         width: 95%;
-        height: 90%;
-        min-height: 600px;
-        font-size: 0.8em;
+        max-height: 670px;
     }
 
     .msgLeftHeader span {
@@ -301,5 +299,8 @@
         min-width: 200px;
         text-align: center;
         margin: 0.25em;
+    }
+    .msgDefaultWrapper {
+        padding: 1em;
     }
 }

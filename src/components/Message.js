@@ -164,16 +164,14 @@ function Message(props) {
                                 {chatHistory.map((chat) => {
                                     return (
                                         <div
+                                            key={uuidv4()}
                                             className={
                                                 chat.position === 0
                                                     ? 'rightchatItem'
                                                     : 'leftchatItem'
                                             }
                                         >
-                                            <div
-                                                key={uuidv4()}
-                                                className="chatItem"
-                                            >
+                                            <div className="chatItem">
                                                 <div>{chat.content}</div>
                                                 <div className="chatTime">
                                                     {chat.time}
