@@ -1,5 +1,6 @@
 import '../style/Message.css';
 import Header from './Header';
+import Newpost from './Newpost';
 import MessageSelect from './MessageSelect';
 import defaultMessageImg from '../images/defaultMessage.jpg';
 import { GlobalContext } from '../context/GlobalState';
@@ -107,7 +108,9 @@ function Message(props) {
     return (
         <div>
             <Header />
+
             <div className="msgContainer">
+                <Newpost />
                 {isSelectBoxOpen ? (
                     <MessageSelect
                         closeNewMsg={closeNewMsg}

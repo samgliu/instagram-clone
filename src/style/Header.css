@@ -198,6 +198,9 @@
         width: 100px;
     }
     .ProfileMenu {
-        right: 2.7%;
+        right: -3%;
+    }
+    .iconmenu {
+        margin-right: 0.25em;
     }
 }

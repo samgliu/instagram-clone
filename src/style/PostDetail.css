@@ -128,7 +128,7 @@
         top: 50px;
         max-width: 750px;
         min-width: 400px;
-        width: 95%;
+        width: 90%;
         flex-direction: column;
     }
     .detailImgContainer {
@@ -136,7 +136,7 @@
         height: 300px;
     }
     .commentContainer {
-        width: 90%;
+        width: 100%;
     }
     .commentsDisplay {
         height: 280px;
