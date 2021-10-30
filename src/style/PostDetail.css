@@ -143,6 +143,6 @@
         overflow-y: auto;
     }
     .commentHeader {
-        justify-content: left;
+        justify-content: space-between;
     }
 }
