@@ -136,3 +136,22 @@
     flex-direction: row;
     gap: 5px;
 }
+
+@media screen and (max-width: 767px) {
+    .Profile {
+        width: 95%;
+        margin-left: 2%;
+    }
+    .profileImgWrapper {
+        margin: 20px 20px 20px 50px;
+    }
+    .picturegrid {
+        grid-template-columns: repeat(1, 90%);
+    }
+    .gridimg {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

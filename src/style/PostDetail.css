@@ -98,7 +98,6 @@
     border-radius: 50%;
 }
 .singleCmt {
-    height: 30px;
     margin: 10px;
     display: flex;
     flex-direction: row;
@@ -119,4 +118,28 @@
 .commentsWrapper {
     display: flex;
     flex-direction: column-reverse;
+}
+
+@media screen and (max-width: 767px) {
+    .PostDetail {
+        top: 50px;
+        max-width: 750px;
+        min-width: 400px;
+        width: 95%;
+        flex-direction: column;
+    }
+    .detailImgContainer {
+        top: 50px;
+        height: 300px;
+    }
+    .commentContainer {
+        width: 90%;
+    }
+    .commentsDisplay {
+        height: 280px;
+        overflow-y: auto;
+    }
+    .commentHeader {
+        justify-content: left;
+    }
 }

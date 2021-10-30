@@ -88,7 +88,7 @@ const Newpost = () => {
                     <div className="posttext">
                         <textarea
                             rows="8"
-                            cols="33"
+                            cols="30"
                             placeholder="Write a caption..."
                             onChange={(e) => (loctext = e.target.value)}
                             required

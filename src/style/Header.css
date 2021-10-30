@@ -8,6 +8,7 @@
     border-bottom: 1px solid #ecebeb;
     padding: 3px 10px 3px 10px;
     background-color: white;
+    width: 100%;
 }
 .Headerimgwrapper {
     margin-left: 15%;
@@ -24,7 +25,7 @@
     justify-content: center;
     flex-direction: row;
     gap: 18px;
-    margin-right: 10%;
+    margin-right: 2em;
 }
 .iconmenu.iconwrapper {
     width: 22px;
@@ -59,7 +60,7 @@
     position: absolute;
     background-color: #f1f1f1;
     top: 40px;
-    right: 10%;
+    right: 1%;
     width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -187,4 +188,16 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
+}
+
+@media screen and (max-width: 767px) {
+    .Headerimgwrapper {
+        margin-left: 2%;
+    }
+    .Header input {
+        width: 100px;
+    }
+    .ProfileMenu {
+        right: 2.7%;
+    }
 }

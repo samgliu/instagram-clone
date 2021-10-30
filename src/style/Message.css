@@ -7,7 +7,7 @@
     justify-content: center;
     background-color: white;
     width: 85%;
-    height: 900px;
+    height: 800px;
     border-radius: 5px;
     font-weight: 400;
     border: 1px solid #f3f3f3;
@@ -27,8 +27,7 @@
     cursor: pointer;
 }
 .msgLeft {
-    width: 25%;
-    min-width: 250px;
+    width: 30%;
     height: 100%;
     border-right: 1px solid #e4e4e4;
 }
@@ -74,8 +73,8 @@
 }
 
 .msgRight {
-    width: 75%;
-    min-width: 400px;
+    width: 70%;
+
     height: 100%;
     display: flex;
     align-items: center;
@@ -217,8 +216,12 @@
     gap: 0.1em;
     margin: 0.1em;
     padding: 0.5em;
-    overflow-y: auto;
     overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: y proximity;
+}
+.chatHistoryBox > div:last-child {
+    scroll-snap-align: end;
 }
 
 .leftchatItem {
@@ -266,4 +269,34 @@
 }
 .select {
     background-color: #f9f9f9;
+}
+@media screen and (max-width: 767px) {
+    .msgContainer {
+        width: 95%;
+        height: 90%;
+        min-height: 600px;
+        font-size: 0.8em;
+    }
+
+    .msgLeftHeader span {
+        font-size: 1em;
+        justify-content: left;
+        margin-left: 0.35em;
+    }
+    .msgListWrapper {
+        font-size: 1em;
+    }
+    .chatAvatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        padding: 2px;
+        margin-left: 2px;
+    }
+
+    .msgSendBox {
+        min-width: 200px;
+        text-align: center;
+        margin: 0.25em;
+    }
 }
