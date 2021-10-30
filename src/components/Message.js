@@ -198,6 +198,17 @@ function Message(props) {
                                         }
                                     }}
                                 />
+                                <div
+                                    className="nextBtn"
+                                    onClick={(e) => {
+                                        e.target.parentNode.firstChild.value =
+                                            '';
+                                        e.preventDefault();
+                                        sendMessage();
+                                    }}
+                                >
+                                    Send
+                                </div>
                             </div>
                         </div>
                     )}

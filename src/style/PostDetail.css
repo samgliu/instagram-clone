@@ -60,27 +60,30 @@
     height: 580px;
 }
 .detailCmtContainer {
-    height: 30px;
+    height: 2em;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.1em;
+    padding: 0.25em;
 }
 .detailCmtContainer input {
     border: none;
-    width: 430px;
-    margin: 5px;
-    height: 25px;
+    width: 90%;
+    height: 3em;
 }
 .detailCmtContainer input::placeholder {
     text-align: left;
 }
-.commentContainer div a {
+.detailCmtContainer a {
     padding: 6px;
     text-decoration: none;
-    color: black;
+    color: #0095f6;
     font-size: 1em;
 }
-.commentContainer div a:hover {
+.detailCmtContainer a:hover {
     text-decoration: underline;
-    color: black;
+    color: #0095f6;
 }
 .avatarContainer {
     margin: 0px 100px 0 10px;
