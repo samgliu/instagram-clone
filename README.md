@@ -4,7 +4,7 @@ A instagram clone React App based on Firebase.
 To Do List:
 
 > partial display
-> mobile view
+> advanced mobile view
 
 ## Feature
 

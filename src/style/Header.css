@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #ecebeb;
-    padding: 3px 10px 3px 10px;
+    padding: 3px 0 3px 0;
     background-color: white;
     width: 100%;
 }
@@ -60,7 +60,7 @@
     position: absolute;
     background-color: #f1f1f1;
     top: 40px;
-    right: 1%;
+    right: 2.7%;
     width: 100px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -72,7 +72,7 @@
     height: 0;
     position: absolute;
     bottom: 100%;
-    right: 11px;
+    right: 2.5%;
     border-width: 0 9px 9px 9px;
     border-style: solid;
     border-color: #ecebeb transparent;
@@ -198,7 +198,7 @@
         width: 100px;
     }
     .ProfileMenu {
-        right: -3%;
+        right: 1%;
     }
     .iconmenu {
         margin-right: 0.25em;
