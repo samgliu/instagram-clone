@@ -12,8 +12,6 @@ const Newpost = () => {
         setImgblob,
         imgblob,
         savePostToserver,
-        history,
-        deletePostFromServer,
         regetdataFromserver,
     } = useContext(GlobalContext);
 

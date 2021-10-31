@@ -1,7 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalState';
-import Postdetail from './PostDetail';
 import { v4 as uuidv4 } from 'uuid';
 import DropdownButton from './DropdownButton';
 const Post = ({
@@ -23,7 +22,7 @@ const Post = ({
         deletePostFromServer,
         regetdataFromserver,
     } = useContext(GlobalContext);
-    const [threePtClicked, setThreePtClicked] = useState(false);
+    // const [threePtClicked, setThreePtClicked] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [isPostDeleted, setIsPostDeleted] = useState(false);
     //let { uname, uuid } = useParams();
@@ -41,7 +40,7 @@ const Post = ({
         if (displayname === post.username) {
             setIsOwner(true);
         }
-    }, []);
+    }, [displayname, post.username]);
     let comment = '';
     function postOnClick(e) {
         e.preventDefault();
@@ -54,9 +53,10 @@ const Post = ({
         handleShowDetail(data);
     }
     //console.log('in Post comments', comments);
+    /*
     function handleThreePtClicked() {
         console.log();
-    }
+    }*/
     async function handleDeleteOnPost() {
         let path = `/users/${post.uuid}/post/${postid}`;
         await deletePostFromServer(path);
@@ -105,12 +105,8 @@ const Post = ({
                     </Link>
                 </div>
                 <DropdownButton
-                    threePtClicked={threePtClicked}
                     handleDeleteOnPost={handleDeleteOnPost}
                     isOwner={isOwner}
-                    onClick={() => {
-                        handleThreePtClicked();
-                    }}
                 />
             </div>
             <div className="postimgcontainer">

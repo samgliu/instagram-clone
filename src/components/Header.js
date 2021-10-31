@@ -1,6 +1,5 @@
 import instagram from '../images/instagram.png';
 import Iconmenu from './Iconmenu';
-import Newpost from './Newpost';
 import '../style/Header.css';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
@@ -9,8 +8,6 @@ import { useContext, useEffect, useState } from 'react';
 function Header() {
     const {
         profilepic,
-        isusersignedin,
-        setIsusersignedin,
         history,
         setIsHomeClicked,
         setIsProfileMenuOpen,

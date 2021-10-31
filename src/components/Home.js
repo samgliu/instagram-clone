@@ -7,28 +7,11 @@ import { useContext, useEffect, useState } from 'react';
 import Signin from './Signin';
 import PostDetail from './PostDetail';
 function Home(props) {
-    const {
-        getUserinfo,
-        curemail,
-        curuser,
-        info,
-        isProfileMenuOpen,
-        setIsProfileMenuOpen,
-        getDataFromserver,
-        regetdataFromserver,
-        onSubmitSignin,
-        defaultLogin,
-        posts,
-        history,
-        isusersignedin,
-        setIsusersignedin,
-        setIsHomeClicked,
-        isHomeClicked,
-        checkLogin,
-    } = useContext(GlobalContext);
+    const { regetdataFromserver, posts, history, isusersignedin, checkLogin } =
+        useContext(GlobalContext);
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
     const [detailData, setDetailData] = useState();
-    const [locPosts, setLocPosts] = useState();
+    //const [locPosts, setLocPosts] = useState();
     /*
     async function onclickgetdata(e) {
         e.preventDefault();
@@ -72,12 +55,13 @@ function Home(props) {
             }
         });
         //return regetdataFromserver();
-    }, [isusersignedin]);
+        //[isusersignedin]);
+    }, [isusersignedin]); //FIXME infinite loop
 
-    function setDetailOpen() {
+    /*function setDetailOpen() {
         setIsPostDetailOpen(!isPostDetailOpen);
         // console.log('isPostDetailOpen', isPostDetailOpen);
-    }
+    }*/
     function handleShowDetail(data) {
         setIsPostDetailOpen(!isPostDetailOpen);
         setDetailData(data);

@@ -1,5 +1,4 @@
 import '../style/Signup.css';
-import instagram from '../images/instagram.png';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
 import { useContext, useState, useEffect } from 'react';
@@ -10,13 +9,7 @@ import DropdownButton from './DropdownButton';
 function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
     const [isOwner, setIsOwner] = useState(false);
     const {
-        onSubmitSignin,
-        getUserinfo,
         history,
-        isProfileMenuOpen,
-        setIsProfileMenuOpen,
-        getDataFromserver,
-        setIsHomeClicked,
         regetdataFromserver,
         saveCommentToServer,
         displayname,
@@ -24,15 +17,10 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
     } = useContext(GlobalContext);
 
     useEffect(() => {
-        console.log(
-            'displayname === post.username0',
-            displayname,
-            post.username
-        );
         if (displayname === post.username) {
             setIsOwner(true);
         }
-    }, []);
+    }, [displayname, post.username]);
 
     function onCloseClick(e) {
         e.preventDefault();

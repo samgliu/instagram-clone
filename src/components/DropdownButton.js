@@ -1,4 +1,3 @@
-import { GlobalProvider } from '../context/GlobalState';
 import { useState } from 'react';
 
 const DropdownButton = ({
@@ -11,7 +10,7 @@ const DropdownButton = ({
         e.preventDefault();
         setIsMenuOpen(!isMenuOpen);
         // console.log(e);
-        console.log('isOwner?', isOwner);
+        //console.log('isOwner?', isOwner);
     };
     const deleteOnClick = (e) => {
         e.preventDefault();

@@ -1,23 +1,16 @@
 import '../style/Posts.css';
 import './Post';
-import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Post from './Post';
 import { v4 as uuidv4 } from 'uuid';
 
 const Posts = ({ handleShowDetail }) => {
-    let time = '';
-    const {
-        getDataFromserver,
-        posts,
-        defaultLogin,
-        isHomeClicked,
-        setIsHomeClicked,
-    } = useContext(GlobalContext);
-    async function defLogin() {
+    //let time = '';
+    const { posts } = useContext(GlobalContext);
+    /*async function defLogin() {
         defaultLogin();
-    }
+    }*/
     /*
     useEffect(() => {
         console.log('posts changed', posts);

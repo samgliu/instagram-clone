@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
 import { useContext } from 'react';
 function Signup() {
-    const { onSubmitSignup, createnewUserdata, history } =
-        useContext(GlobalContext);
+    const { onSubmitSignup, history } = useContext(GlobalContext);
 
     let email = '';
     let fullname = '';

@@ -1,5 +1,4 @@
 import '../style/Profile.css';
-import Posts from '../components/Posts';
 import Newpost from './Newpost';
 import Header from './Header';
 import PostDetail from './PostDetail';
@@ -8,27 +7,14 @@ import { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 function Profile(props) {
     const {
-        getUserinfo,
-        curemail,
-        curuser,
-        info,
-        isProfileMenuOpen,
-        setIsProfileMenuOpen,
-        getDataFromserver,
-        regetdataFromserver,
-        onSubmitSignin,
-        defaultLogin,
-        posts,
         history,
         isusersignedin,
-        setIsusersignedin,
         getprofileFromserver,
         profiledata,
         setImgblob,
         imgblob,
         saveAvatartoserver,
         isfollowed,
-        setIsfollowed,
         followTarget,
         unfollowTarget,
         checkisFollowed,
@@ -36,7 +22,7 @@ function Profile(props) {
         displayname,
     } = useContext(GlobalContext);
 
-    const [profileUsersignedin, setProfileUsersignedin] = useState(false);
+    //const [profileUsersignedin, setProfileUsersignedin] = useState(false);
     const [ischangingavatar, setIschangingavatar] = useState(false);
     const [locIsFollowed, setLocIsFollowed] = useState(true);
     const [isPostDetailOpen, setIsPostDetailOpen] = useState(false);
@@ -76,7 +62,8 @@ function Profile(props) {
         fetchData();
 
         //console.log('isfollowed', isfollowed);
-    }, [props, isfollowed, isusersignedin, isProfileowner]);
+        //[props, isfollowed, isusersignedin, isProfileowner]);
+    }, [props, isfollowed, isusersignedin, isProfileowner]); //FIXME infinite loop
 
     /*
     useEffect(() => {
@@ -93,7 +80,7 @@ function Profile(props) {
         });
     }, [profileUsersignedin, regetdataFromserver]);
 */
-    let loctext = '';
+    //let loctext = '';
 
     const [previewimg, setPreviewimg] = useState();
     const onSelectChange = async (e) => {

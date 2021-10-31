@@ -1,23 +1,10 @@
 import '../style/Signup.css';
-import instagram from '../images/instagram.png';
-import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext, useEffect, useState } from 'react';
-import { Timestamp } from '@firebase/firestore';
+import { useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function MessageSelect({ closeNewMsg, HandleNextOnClick }) {
-    const {
-        onSubmitSignin,
-        getUserinfo,
-        history,
-        isProfileMenuOpen,
-        setIsProfileMenuOpen,
-        regetdataFromserver,
-        getDataFromserver,
-        setIsHomeClicked,
-        searchUserFromServer,
-    } = useContext(GlobalContext);
+    const { searchUserFromServer } = useContext(GlobalContext);
     const [keyword, setKeyword] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [selectedUser, setSelectedUser] = useState();

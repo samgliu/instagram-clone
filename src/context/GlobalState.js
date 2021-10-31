@@ -1,5 +1,5 @@
-import React, { createContext, useReducer, useState, useEffect } from 'react';
-import { App, db } from '../components/Firebase';
+import React, { createContext, useState } from 'react';
+import { db } from '../components/Firebase';
 import { v4 as uuidv4 } from 'uuid';
 import {
     collection,
@@ -13,9 +13,8 @@ import {
     query,
     arrayUnion,
     arrayRemove,
-    collectionGroup,
     where,
-    limit,
+    //limit,
     orderBy,
     onSnapshot,
     deleteDoc,
@@ -27,8 +26,8 @@ import {
     signInWithEmailAndPassword,
     onAuthStateChanged,
     updateProfile,
-    setPersistence,
-    browserSessionPersistence,
+    //setPersistence,
+    //browserSessionPersistence,
 } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -42,7 +41,7 @@ export const GlobalProvider = ({ children }) => {
     const [messageButtonClicked, setMessageButtonClicked] = useState(false);
     const [curuser, setCuruser] = useState();
     const [curemail, setCuremail] = useState();
-    const [info, setInfo] = useState();
+    //const [info, setInfo] = useState();
     const [isNewpostOpen, setIsNewpostOpen] = useState(false);
     const [displayname, setDisplayname] = useState();
     const [username, setUsername] = useState();
@@ -56,7 +55,7 @@ export const GlobalProvider = ({ children }) => {
     const [isfollowed, setIsfollowed] = useState(false);
     const [allRooms, setAllRooms] = useState([]);
     const [chatHistory, setChatHistory] = useState([]);
-    const [chatUnsubscribe, setChatUnsubscribe] = useState();
+    //const [chatUnsubscribe, setChatUnsubscribe] = useState();
     const [friendId, setFriendId] = useState();
     const [chatRoomId, setChatRoomId] = useState();
 
@@ -122,13 +121,13 @@ export const GlobalProvider = ({ children }) => {
         let userdoc = await getDoc(locdoc);
         let userdata = userdoc.data();
         //console.log('userdata', userdata);
-        let avatar = userdata.avatar;
+        // let avatar = userdata.avatar;
         let loccol = collection(locdoc, 'post');
         let followingusers = userdata.following;
         const cols = query(loccol);
         const colarr = await getDocs(cols);
         //console.log('getDataFromserver colarr', colarr);
-        let newarr = [];
+        //let newarr = [];
         let tempCollection = []; // temp
         //console.log('foreach 1');
 
@@ -149,9 +148,9 @@ export const GlobalProvider = ({ children }) => {
 
             thefollowingusers.forEach(async (thefollowingusers) => {
                 //console.log('followinguser', followinguser);
-                let followinguserdoc = await getDoc(thefollowingusers);
+                //let followinguserdoc = await getDoc(thefollowingusers);
                 //  console.log('followinguserdoc', followinguserdoc);
-                let fodata = followinguserdoc.data();
+                //let fodata = followinguserdoc.data();
                 let fousercol = collection(thefollowingusers, 'post');
                 const fousercols = query(fousercol);
                 // console.log('fousercols', fousercols);
@@ -254,7 +253,7 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
-    async function getprofileFromserver1(theuid) {
+    /*async function getprofileFromserver1(theuid) {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -273,7 +272,7 @@ export const GlobalProvider = ({ children }) => {
                     setIsProfileowner(true);
                 } else {
                     setIsProfileowner(false);
-                }*/
+                }
                 let loccol = collection(locdoc, 'post');
                 const cols = query(loccol, orderBy('timestamp', 'desc'));
                 const colarr = await getDocs(cols);
@@ -282,13 +281,13 @@ export const GlobalProvider = ({ children }) => {
                 let filedata = {
                     arr: newarr,
                 };
-                /*
+                
                 colarr.forEach((doc) => {
                     let newdoc = { ...doc.data(), avatar: avatar };
                     newarr.push(newdoc);
                 });
                 setProfiledata(newarr);
-                */
+                
                 async function processArray(array, newarr, avatar) {
                     array.forEach((doc) => {
                         //console.log('itemdata', doc.data());
@@ -308,14 +307,14 @@ export const GlobalProvider = ({ children }) => {
                 console.log('// No user when getting profile');
             }
         });
-    }
+    }*/
 
     async function getprofileFromserver(theuid) {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 // console.log('getprofileFromserver user', user, theuid);
-                let ownerusername = user.displayName;
+                //let ownerusername = user.displayName;
 
                 let locdoc = doc(db, 'users', `${theuid}`); //, 'post'
                 // console.log(locdoc);
@@ -483,7 +482,7 @@ export const GlobalProvider = ({ children }) => {
         const auth = getAuth();
         let user = auth.currentUser;
         let theuid = user.uid;
-        let input = inputtext;
+        //let input = inputtext;
         let imgurl = 'default';
         if (user) {
             const imgstorageRef = ref(storage, `uploadedimages/${uuidv4()}`);
@@ -529,7 +528,7 @@ export const GlobalProvider = ({ children }) => {
         const auth = getAuth();
         let user = auth.currentUser;
         let theuid = targetUid;
-        let input = inputText;
+        //let input = inputText;
         //  console.log('saveCommentToServer ', inputText, targetPostId);
         if (user) {
             setDoc(
@@ -617,9 +616,9 @@ export const GlobalProvider = ({ children }) => {
                 // ...
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(error);
+                //const errorCode = error.code;
+                //const errorMessage = error.message;
+                //console.log(error);
                 // ..
             });
     }
@@ -683,9 +682,9 @@ export const GlobalProvider = ({ children }) => {
                 })();
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(error);
+                //const errorCode = error.code;
+                //const errorMessage = error.message;
+                //console.log(error);
             });
         /*
         updateProfile(auth.currentUser, {
@@ -775,6 +774,7 @@ export const GlobalProvider = ({ children }) => {
                 }, 1000);
             });
         });
+        return unsubscribe;
     }
 
     async function fetchFriendInfo(arr) {
@@ -797,7 +797,7 @@ export const GlobalProvider = ({ children }) => {
             // console.log(locdoc);
             let locdata = (await getDoc(locdoc)).data();
             let avatar = locdata.avatar; // avatar info under user's doc
-            let info = locdata.info;
+            //let info = locdata.info;
             let nickName = locdata.name;
             let username = locdata.username;
             return { avatar: avatar, username: username, name: nickName };
@@ -855,6 +855,7 @@ export const GlobalProvider = ({ children }) => {
                     setChatHistory(chatArr);
                 }, 1000);
             });
+            return unsubscribe;
             //setChatUnsubscribe(unsubscribe);
         }
     }
@@ -896,7 +897,7 @@ export const GlobalProvider = ({ children }) => {
 
         if (!isCreatedBefore) {
             if (user) {
-                let username = target.username;
+                //let username = target.username;
 
                 if (user) {
                     ///messages/s0IYEWn6SOQjFCze427R/submessage
@@ -929,7 +930,7 @@ export const GlobalProvider = ({ children }) => {
                 curemail,
                 userLogout,
                 curuser,
-                info,
+                //info,
                 isNewpostOpen,
                 setIsNewpostOpen,
                 displayname,
@@ -960,11 +961,11 @@ export const GlobalProvider = ({ children }) => {
                 deletePostFromServer,
                 saveProfileInfoToServer,
                 searchUserFromServer,
-                fetchGroupByUserID,
+                fetchGroupByUserID, //unsubscribe
                 allRooms,
                 fetchFriendInfo,
                 chatHistory,
-                fetchChatHistoryByRoom,
+                fetchChatHistoryByRoom, //unsubscribe
                 postChatToServer,
                 friendId,
                 chatRoomId,

@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext, useEffect } from 'react';
-import { useParams, generatePath } from 'react-router-dom';
+import { useContext } from 'react';
+//import { useParams } from 'react-router-dom';
 
-function ProfileMenu(props) {
+function ProfileMenu() {
     const {
         userLogout,
         history,
-        isProfileMenuOpen,
         setIsHomeClicked,
         setIsProfileMenuOpen,
         username,
@@ -23,12 +22,12 @@ function ProfileMenu(props) {
         setIsProfileMenuOpen(false);
         setIsHomeClicked(false);
     }
-    let { uname, uuid } = useParams();
+    //let { uname, uuid } = useParams();
 
     const handleProceed = (e) => {
         e.preventDefault();
-        uname = username;
-        uuid = useruid;
+        //uname = username;
+        //uuid = useruid;
         history.push(`/profile/${username}/${useruid}`);
 
         //console.log(generatePath('/profile/:username', { username }));

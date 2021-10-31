@@ -1,5 +1,5 @@
 import { GlobalContext } from '../context/GlobalState';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ProfileMenu from '../components/ProfileMenu';
 function Iconmenu({ profilepic }) {

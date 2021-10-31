@@ -2,19 +2,11 @@ import '../style/Signup.css';
 import instagram from '../images/instagram.png';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../context/GlobalState';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 function Signin() {
-    const {
-        onSubmitSignin,
-        getUserinfo,
-        history,
-        isProfileMenuOpen,
-        setIsProfileMenuOpen,
-        regetdataFromserver,
-        getDataFromserver,
-        setIsHomeClicked,
-    } = useContext(GlobalContext);
+    const { onSubmitSignin, history, setIsHomeClicked } =
+        useContext(GlobalContext);
     let email = '';
     let password = '';
 

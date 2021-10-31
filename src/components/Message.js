@@ -6,38 +6,10 @@ import defaultMessageImg from '../images/defaultMessage.jpg';
 import { GlobalContext } from '../context/GlobalState';
 import { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc } from '@firebase/firestore';
 function Message(props) {
     const {
-        getUserinfo,
-        curemail,
-        curuser,
-        info,
-        isProfileMenuOpen,
-        setIsProfileMenuOpen,
-        getDataFromserver,
-        regetdataFromserver,
-        onSubmitSignin,
-        defaultLogin,
-        posts,
-        history,
-        isusersignedin,
-        setIsusersignedin,
-        getprofileFromserver,
-        profiledata,
-        setImgblob,
-        imgblob,
-        saveAvatartoserver,
-        isfollowed,
-        setIsfollowed,
-        followTarget,
-        unfollowTarget,
-        checkisFollowed,
-        saveProfileInfoToServer,
         displayname,
-        fetchGroupByUserID,
         allRooms,
-        fetchFriendInfo,
         chatHistory,
         fetchChatHistoryByRoom,
         postChatToServer,
