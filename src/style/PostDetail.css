@@ -36,6 +36,13 @@
     width: 50%;
     height: 100%;
 }
+.commentContainer a {
+    text-decoration: none;
+    color: black;
+}
+.commentContainer a:hover {
+    text-decoration: underline;
+}
 .commentHeader {
     width: 100%;
     display: flex;
