@@ -2,8 +2,8 @@
     top: 100px;
     max-width: 1073px;
     min-width: 848px;
-    min-height: 691px;
-    max-height: 616px;
+    min-height: 616px;
+    max-height: 691px;
     font-size: 0.9em;
     color: #262626;
     border: 1px solid gray;
@@ -23,15 +23,15 @@
 .detailImgContainer {
     width: 50%;
     overflow: hidden;
-    margin: 10px;
-    border-radius: 5px;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 .detailImgContainer img {
-    border: none;
+    border: 1px solid white;
     width: 100%;
+    border-radius: 5px;
 }
 .commentContainer {
     display: flex;
@@ -55,7 +55,6 @@
     border-radius: 5px;
     border-bottom: 1px solid rgb(214, 214, 214);
     height: 4em;
-    padding-top: 10px;
 }
 
 .commentHeader button {
@@ -156,7 +155,7 @@
         flex-direction: column;
     }
     .detailImgContainer {
-        height: 250px;
+        height: 300px;
         width: 95%;
         display: flex;
         justify-content: center;
