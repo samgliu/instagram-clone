@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from 'react';
 import '../style/PostDetail.css';
 import { v4 as uuidv4 } from 'uuid';
 import DropdownButton from './DropdownButton';
+import PostDetailHeader from './PostDetailHeader';
 
 function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
     const [isOwner, setIsOwner] = useState(false);
@@ -53,51 +54,21 @@ function Postdetail({ post, setIsPostDetailOpen, isPostDetailOpen }) {
     }
     return (
         <div className="PostDetail">
-            <div className="detailImgContainer">
+            <div className="detailImgContainer desktopPostDetailImg">
                 <img src={post.pic} alt="" />
             </div>
             <div className="commentContainer">
-                <div className="commentHeader">
-                    <div className="avatarContainer">
-                        <img src={post.avatar} alt="" />
-
-                        <div>
-                            <Link
-                                to={{
-                                    pathname: `/profile/${post.username}/${postUid}`,
-                                }}
-                                onClick={(e) =>
-                                    handleProceed(
-                                        e,
-                                        `/profile/${post.username}/${postUid}`
-                                    )
-                                }
-                            >
-                                <strong>{post.username}</strong>
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className="buttonContainer">
-                        <div className="detailButton">
-                            <DropdownButton
-                                isOwner={isOwner}
-                                onClick={() => {
-                                    handleThreePtClicked();
-                                }}
-                                handleDeleteOnPost={handleDeleteOnPost}
-                            />
-                        </div>
-                        <div>
-                            <button
-                                type="button"
-                                onClick={(e) => onCloseClick(e)}
-                                className="closebtn"
-                            >
-                                ✖
-                            </button>
-                        </div>
-                    </div>
+                <PostDetailHeader
+                    avatar={post.avatar}
+                    username={post.username}
+                    uid={postUid}
+                    isOwner={isOwner}
+                    handleThreePtClicked={handleThreePtClicked}
+                    onCloseClick={onCloseClick}
+                    handleDeleteOnPost={handleDeleteOnPost}
+                />
+                <div className="detailImgContainer mobilePostDetailImg">
+                    <img src={post.pic} alt="" />
                 </div>
                 <div className="commentsDisplay">
                     <div className="singleCmt">
