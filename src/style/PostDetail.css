@@ -139,12 +139,20 @@
         flex-direction: column;
     }
     .detailImgContainer {
-        top: 50px;
         height: 300px;
+        width: 95%;
+        display: flex;
+        justify-content: center;
+    }
+    .detailImgContainer img {
+        height: 100%;
+        width: auto;
+        object-fit: cover;
     }
     .commentContainer {
         width: 100%;
     }
+
     .commentsDisplay {
         height: 280px;
         overflow-y: auto;
