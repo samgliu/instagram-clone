@@ -14,11 +14,11 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts  --openssl-legacy-provider start",
+    "build": "react-scripts  --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "npm run  --openssl-legacy-provider build",
    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -42,5 +42,5 @@
   "devDependencies": {
     "gh-pages": "^3.2.3"
   }
-  ,"homepage": "https://samgliu.me"
+  ,"homepage": "https://samgliu.github.io/instagram-clone/"
 }

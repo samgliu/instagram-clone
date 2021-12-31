@@ -86,7 +86,9 @@ function Profile(props) {
     const onSelectChange = async (e) => {
         e.preventDefault();
         setIschangingavatar(true);
-        setPreviewimg(window.URL.createObjectURL(e.target.files[0]));
+        if (e.target.files.length !== 0) {
+            setPreviewimg(window.URL.createObjectURL(e.target.files[0]));
+        }
         setImgblob(e.target.files[0]);
     };
 
