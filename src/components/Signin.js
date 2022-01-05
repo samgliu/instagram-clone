@@ -19,6 +19,11 @@ function Signin() {
         }*/
         history.push('/');
     }
+    async function handleTestLogIn() {
+        setIsHomeClicked(true);
+        await onSubmitSignin('test1@test1.com', 'testtest');
+        history.push('/');
+    }
     return (
         <div className="signup">
             <div className="signupcontainer">
@@ -56,6 +61,15 @@ function Signin() {
                         type="submit"
                         value="Log in"
                     />
+                    <button
+                        className="sigupformbutton"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleTestLogIn();
+                        }}
+                    >
+                        Test Account Log In
+                    </button>
                 </form>
                 <div style={{ fontSize: '0.7em' }}>
                     <p>Forgot password?</p>
